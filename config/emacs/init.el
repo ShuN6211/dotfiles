@@ -320,8 +320,7 @@
 
 ;; smartparens 括弧の補完など.
 (leaf smartparens
-  :ensure t
-  :hook (after-init-hook . smartparens-global-strict-mode) ; strictモードを有効化
+  :ensure t                                        
   :require smartparens-config
   :custom ((electric-pair-mode . nil))) ; electirc-pair-modeを無効化.
 
