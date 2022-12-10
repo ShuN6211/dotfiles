@@ -1,0 +1,12 @@
+.lsp-session-v1
+elpa/
+init.elc
+snippets/
+backup/
+request/
+var
+zsh_plugin/
+config/iterm2/AppSupport
+.zcomp*
+*.zwc
+com.googlecode.iterm2.plist

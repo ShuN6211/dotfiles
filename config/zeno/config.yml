@@ -1,0 +1,304 @@
+snippets:
+
+  # general
+  - name: mk
+    keyword: mk
+    snippet: mkdir
+
+  - name: ec
+    keyword: ec
+    snippet: echo
+
+  - name: to
+    keyword: to
+    snippet: touch
+
+  - name: c
+    keyword: c
+    snippet: cd
+
+  # cd
+  - name: --
+    keyword: --
+    snippet: cd -
+
+  - name: ..
+    keyword: ..
+    snippet: cd ..
+
+  - name: ../..
+    keyword: ../..
+    snippet: cd ../..
+
+  - name: ../../..
+    keyword: ../../..
+    snippet: cd ../../..
+
+  # emacs
+  - name: em
+    keyword: em
+    snippet: emacs
+
+  - name: emc
+    keyword: emc
+    snippet: emacs {{}} -nw 
+  
+  # git
+  - name: g
+    keyword: g
+    snippet: git
+
+  - name: gs
+    keyword: gs
+    snippet: git status
+
+  # git add
+  - name: git a
+    keyword: a
+    snippet: add 
+    context:
+      lbuffer: ^git\s
+
+  # git branch
+  - name: git b
+    keyword: b
+    snippet: branch
+    context:
+      lbuffer: ^git\s
+
+  # git checkout
+  - name: git ch
+    keyword: ch
+    snippet: checkout
+    context:
+      lbuffer: ^git\s
+
+  - name: git chb
+    keyword: chb
+    snippet: checkout -b 
+    context:
+      lbuffer: ^git\s
+
+  # git commit
+  - name: git c
+    keyword: c
+    snippet: commit -m "{{}}"
+    context:
+      lbuffer: ^git\s
+
+
+  - name: git cm
+    keyword: cm
+    snippet: commit --amend --no-edit
+    context:
+      lbuffer: ^git\s
+
+
+  - name: git cmm
+    keyword: cmm
+    snippet: commit --amend -m "{{}}" 
+    context:
+      lbuffer: ^git\s
+
+  # git status
+  - name: git s
+    keyword: s
+    snippet: status
+    context:
+      lbuffer: ^git\s
+
+  - name: git g
+    keyword: g
+    snippet: graph
+    context:
+      lbuffer: ^git\s
+
+  - name: git ps
+    keyword: ps
+    snippet: push
+    context:
+      lbuffer: ^git\s
+
+  - name: git pso
+    keyword: pso
+    snippet: push origin HEAD
+    context:
+      lbuffer: ^git\s
+
+  - name: git pl
+    keyword: pl
+    snippet: pull
+    context:
+      lbuffer: ^git\s
+
+  - name: git plo
+    keyword: pl
+    snippet: pull origin 
+    context:
+      lbuffer: ^git\s
+
+  - name: git f
+    keyword: f
+    snippet: fetch
+    context:
+      lbuffer: ^git\s
+
+  - name: git d
+    keyword: d
+    snippet: diff
+    context:
+      lbuffer: ^git\s
+
+  - name: git l
+    keyword: l
+    snippet: log
+    context:
+      lbuffer: ^git\s
+
+
+   # Anaconda
+  - name: co
+    keyword: co
+    snippet: conda
+
+  - name: conda c
+    keyword: c
+    snippet: create -n 
+    context:
+      lbuffer: ^conda\s
+
+  - name: conda a
+    keyword: a
+    snippet: activate 
+    context:
+      lbuffer: ^conda\s
+
+  - name: conda erm
+    keyword: erm
+    snippet: env remove -n {{}} --all
+    context:
+      lbuffer: ^conda\s
+
+
+  - name: conda l
+    keyword: l
+    snippet: list
+    context:
+      lbuffer: ^conda\s
+
+  - name: conda s
+    keyword: s
+    snippet: search
+    context:
+      lbuffer: ^conda\s
+
+  - name: conda i
+    keyword: i
+    snippet: info -e
+    context:
+      lbuffer: ^conda\s
+
+  - name: conda i
+    keyword: i
+    snippet: info -e
+    context:
+      lbuffer: ^conda\s
+
+
+   # homebrew
+  - name: b
+    keyword: b
+    snippet: brew
+
+  - name: brew upd
+    keyword: upd
+    snippet: update
+    context:
+      lbuffer: ^brew\s
+
+  - name: brew upg
+    keyword: upg
+    snippet: upgrade
+    context:
+      lbuffer: ^brew\s
+
+  - name: brew l
+    keyword: l
+    snippet: list
+    context:
+      lbuffer: ^brew\s
+
+  - name: brew d
+    keyword: d
+    snippet: deps --tree --installed
+    context:
+      lbuffer: ^brew\s
+
+  - name: brew dd
+    keyword: dd
+    snippet: deps --tree
+    context:
+      lbuffer: ^brew\s
+
+  - name: brew l
+    keyword: l
+    snippet: list
+    context:
+      lbuffer: ^brew\s
+
+  - name: brew lp
+    keyword: lp
+    snippet: list --pined
+    context:
+      lbuffer: ^brew\s
+
+  - name: brew s
+    keyword: s
+    snippet: search
+    context:
+      lbuffer: ^brew\s
+
+  - name: brew o
+    keyword: o
+    snippet: outdated
+    context:
+      lbuffer: ^brew\s
+
+  - name: brew i
+    keyword: i
+    snippet: info
+    context:
+      lbuffer: ^brew\s
+
+  - name: brew d
+    keyword: d
+    snippet: doctor
+    context:
+      lbuffer: ^brew\s
+
+  - name: brew co
+    keyword: co
+    snippet: commands
+    context:
+      lbuffer: ^brew\s
+
+  - name: brew cl
+    keyword: cl
+    snippet: cleanup
+    context:
+      lbuffer: ^brew\s
+
+  - name: brew h
+    keyword: h
+    snippet: help
+    context:
+      lbuffer: ^brew\s
+
+  - name: brew p
+    keyword: p
+    snippet: pin
+    context:
+      lbuffer: ^brew\s
+
+
+

@@ -1,0 +1,9 @@
+[init]
+	defaultBranch = main
+[user]
+	email = shunmakino6211@gmail.com
+	name = Shun Makino
+[core]
+	editor = emacs
+[alias]
+	graph = log --graph --date-order --all --pretty=format:'%h %Cred%d %Cgreen%ad %Cblue%cn %Creset%s' --date=short
