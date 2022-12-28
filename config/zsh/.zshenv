@@ -2,7 +2,7 @@
 # XDG
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
-export XDG_DATA_HOME=$HOME/.local/shere
+export XDG_DATA_HOME=$HOME/.local/share
 export XDG_STATE_HOME=$HOME/.local/state
 
 # homebrew 
@@ -16,6 +16,7 @@ export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
 # dotfiles
 export DOTFILES=$HOME/dotfiles
 
+# zsh_sessionsを作らない
 export SHELL_SESSIONS_DISABLE=1
 
 # ZDOTDIR
@@ -24,13 +25,19 @@ export ZDOTDIR=$XDG_CONFIG_HOME/zsh
 # anaconda3
 #export PATH=$PATH:$HOME/anaconda3/bin
 
+export CONDARC=$XDG_CONFIG_HOME/conda/condarc
+
 # flask
 export FLASK_ENV=development
 export FLASK_APP=api:app
 
 # Go
-export GOPATH=$HOME/go
+export GOPATH=$XDG_DATA_HOME/go
 export PATH=$PATH:$GOPATH/bin
+
+# poetry
+export PATH=$PATH:$HOME/.local/bin
+
 
 # java tomcat
 #export JAVA_HOME=$(/usr/libexec/java_home v 1.0)
