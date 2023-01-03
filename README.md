@@ -1,5 +1,3 @@
-# dotfiles
-## TODO
-- peco
-- ディレクトリ移動
-- zenoに関する理解
+## my_dotfiles
+- My dotfiles
+- https://wiki.archlinux.org/title/XDG_Base_Directory

@@ -37,6 +37,9 @@ export PATH=$PATH:$GOPATH/bin
 
 # poetry
 export PATH=$PATH:$HOME/.local/bin
+export POETRY_CONFIG_DIR=$XDG_CONFIG_HOME/pypoetry
+export POETRY_DATA_DIR=$XDG_DATA_HOME/pypoetry
+export POETRY_CACHE_DIR=$XDG_CACHE_HOME/pypoetry
 
 
 # java tomcat
