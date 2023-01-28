@@ -74,9 +74,9 @@ if [[ -n $ZENO_LOADED ]]; then
   # if you use zsh's incremental search
   # bindkey -M isearch ' ' self-insert
 
-  bindkey '^m' zeno-auto-snippet-and-accept-line
+  # bindkey '^m' zeno-auto-snippet-and-accept-line
 
-  bindkey '^i' zeno-completion
+  # bindkey '^i' zeno-completion
 
   # fallback if completion not matched
   # (default: fzf-completion if exists; otherwise expand-or-complete)
