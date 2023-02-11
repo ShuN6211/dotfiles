@@ -41,6 +41,9 @@ export POETRY_CONFIG_DIR=$XDG_CONFIG_HOME/pypoetry
 export POETRY_DATA_DIR=$XDG_DATA_HOME/pypoetry
 export POETRY_CACHE_DIR=$XDG_CACHE_HOME/pypoetry
 
+# fzf
+export FZF_DEFAULT_OPTS='--reverse'
+
 
 # java tomcat
 #export JAVA_HOME=$(/usr/libexec/java_home v 1.0)

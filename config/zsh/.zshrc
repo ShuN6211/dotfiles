@@ -1,3 +1,26 @@
+### Added by Zinit's installer
+if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+        print -P "%F{160} The clone has failed.%f%b"
+fi
+
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-rust
+
+### End of Zinit's installer chunk
+
 
 # 色を使用できるようにする
 autoload -Uz colors
@@ -5,10 +28,6 @@ colors
 
 # emacs keybind
 # bindkey -e
-
-
-## 環境変数を補完
-## setopt AUTO_PARAM_KEYS
 
 # ヒストリの設定
 export HISTFILE=$XDG_STATE_HOME/zsh_history
@@ -20,74 +39,40 @@ setopt hist_ignore_all_dups
 setopt inc_append_history
 setopt share_history
 
-# zsh-completion
-if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-    FPATH=$(brew --prefix)/completions/zsh:$FPATH # brew
-    FPATH=$DOTFILES/zsh_plugin/conda-zsh-completion:$FPATH # conda
-    autoload -Uz compinit
-    compinit
-fi
+## コマンド補完
+zinit ice wait'0'; zinit light zsh-users/zsh-completions
+FPATH=$(brew --prefix)/completions/zsh:$FPATH # brew
+autoload -Uz compinit && compinit
 
-# zsh-autosuggestions
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh # suugestion
-# zsh-bd
-source $DOTFILES/zsh_plugin/bd/bd.zsh 
+## 履歴補完
+zinit light zsh-users/zsh-autosuggestions
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
 
-
-# if defined load the configuration file from there
-# export ZENO_HOME=~/.config/zeno
-
-# if disable deno cache command when plugin loaded
-# export ZENO_DISABLE_EXECUTE_CACHE_COMMAND=1
-
-# if enable fzf-tmux
-# export ZENO_ENABLE_FZF_TMUX=1
-
-# if setting fzf-tmux options
-# export ZENO_FZF_TMUX_OPTIONS="-p"
-
-# Experimental: Use UNIX Domain Socket
-# export ZENO_HOME=~/.config/zeno
-source $DOTFILES/zsh_plugin/zeno.zsh/zeno.zsh
-export ZENO_ENABLE_SOCK=1
-
-# if disable builtin completion
-# export ZENO_DISABLE_BUILTIN_COMPLETION=1
-
-# default
-# export ZENO_GIT_CAT="cat"
-# git file preview with color
-export ZENO_GIT_CAT="bat --color=always"
-
-# default
-export ZENO_GIT_TREE="tree"
-# git folder preview with color
-# export ZENO_GIT_TREE="exa --tree"
+## zeno設定
+zinit ice lucid depth"1" blockf
+zinit light yuki-yano/zeno.zsh
 
 if [[ -n $ZENO_LOADED ]]; then
+  # ここに任意のZLEの記述を行う
   bindkey ' '  zeno-auto-snippet
-
-  # fallback if snippet not matched (default: self-insert)
-  # export ZENO_AUTO_SNIPPET_FALLBACK=self-insert
-
-  # if you use zsh's incremental search
-  # bindkey -M isearch ' ' self-insert
-
-  # bindkey '^m' zeno-auto-snippet-and-accept-line
-
-  # bindkey '^i' zeno-completion
-
-  # fallback if completion not matched
-  # (default: fzf-completion if exists; otherwise expand-or-complete)
-  # export ZENO_COMPLETION_FALLBACK=expand-or-complete
+  bindkey '^m' zeno-auto-snippet-and-accept-line
+  bindkey '^i' zeno-completion
+  bindkey '^g' zeno-ghq-cd
+  bindkey '^r' zeno-history-selection
+  bindkey '^x' zeno-insert-snippet
 fi
+
+## シンタックスハイライト
+zinit light zdharma-continuum/fast-syntax-highlighting
 
 # 補完で大文字にもマッチ
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 # 塗りつぶし
 zstyle ':completion:*' menu select
+
+## 補完候補を一覧表示したとき、Tabや矢印で選択できるようにする
+zstyle ':completion:*:default' menu select=1 
 
 # ../ の後は今いるディレクトリを補完しない
 zstyle ':completion:*' ignore-parents parent pwd ..
@@ -98,47 +83,6 @@ setopt correct
 # '#' 以降をコメントとして扱う
 setopt interactive_comments
 
-
-# peco settings
-# 過去に実行したコマンドを選択。ctrl-rにバインド
-function peco-select-history() {
-  BUFFER=$(\history -n -r 1 | peco --query "$LBUFFER")
-  CURSOR=$#BUFFER
-  zle clear-screen
-}
-zle -N peco-select-history
-bindkey '^r' peco-select-history
-
-# コマンド履歴からディレクトリ検索・移動 ctrl+s
-if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]]; then
-  autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
-  add-zsh-hook chpwd chpwd_recent_dirs
-  zstyle ':completion:*' recent-dirs-insert both
-  zstyle ':chpwd:*' recent-dirs-default true
-  zstyle ':chpwd:*' recent-dirs-max 1000
-  zstyle ':chpwd:*' recent-dirs-file "$HOME/.cache/chpwd-recent-dirs"
-fi
-function peco-cdr () {
-  local selected_dir="$(cdr -l | sed 's/^[0-9]* *//' | peco)"
-  if [ -n "$selected_dir" ]; then
-    BUFFER="cd ${selected_dir}"
-    zle accept-line
-  fi
-}
-zle -N peco-cdr
-bindkey '^w' peco-cdr
-
-# カレントディレクトリ以下のディレクトリ検索・移動 ctrl+x
-function find_cd() {
-  local selected_dir=$(find . -type d | peco)
-  if [ -n "$selected_dir" ]; then
-    BUFFER="cd ${selected_dir}"
-    zle accept-line
-  fi
-}
-zle -N find_cd
-bindkey '^x' find_cd
-
 # cdなし
 setopt auto_cd
 
@@ -147,6 +91,9 @@ setopt auto_pushd
 
 # no-heep
 setopt no_beep
+
+## 環境変数を補完
+setopt AUTO_PARAM_KEYS
 
 # C で標準出力をクリップボードにコピーする
 # mollifier delta blog : http://mollifier.hatenablog.com/entry/20100317/p1
@@ -214,12 +161,6 @@ if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
     install_powerline_precmd
 fi
 
-# シンタックスハイライト
-# brew install zsh-syntax-highlighting
-#source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# brew install zsh-fast-syntax-highlighting
-source $(brew --prefix)/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/Users/shunmakino/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -234,6 +175,7 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
 
 
 
