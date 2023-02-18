@@ -51,9 +51,6 @@ zinit ice wait'0'; zinit light zsh-users/zsh-completions
 FPATH=$(brew --prefix)/completions/zsh:$FPATH # brew
 autoload -Uz compinit && compinit
 
-## 履歴補完
-zinit light zsh-users/zsh-autosuggestions
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
 
 ## zeno設定
 zinit ice lucid depth"1" blockf
@@ -68,6 +65,11 @@ if [[ -n $ZENO_LOADED ]]; then
   bindkey '^r' zeno-history-selection
   bindkey '^x' zeno-insert-snippet
 fi
+
+## 履歴補完
+zinit light zsh-users/zsh-autosuggestions
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS=(zeno-auto-snippet-and-accept-line $ZSH_AUTOSUGGEST_CLEAR_WIDGETS)
 
 ## シンタックスハイライト
 zinit light zdharma-continuum/fast-syntax-highlighting
