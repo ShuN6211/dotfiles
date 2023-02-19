@@ -59,10 +59,80 @@ snippets:
     context:
       lbuffer: ^git\s
 
-  # git branch
+    # git branch
   - name: git b
     keyword: b
     snippet: branch
+    context:
+      lbuffer: ^git\s
+
+    # git commit
+  - name: git c
+    keyword: c
+    snippet: commit
+    context:
+      lbuffer: ^git\s
+
+  - name: git cam
+    keyword: cam
+    snippet: commit --amend --no-edit
+    context:
+      lbuffer: ^git\s
+
+  - name: git cm
+    keyword: cm
+    snippet: commit -m '{{}}'
+    context:
+      lbuffer: ^git\s
+
+  # git diff
+  - name: git st
+    keyword: st
+    snippet: diff --stat
+    context:
+      lbuffer: ^git\s
+
+  - name: git stats
+    keyword: stats
+    snippet: diff --stat --staged
+    context:
+      lbuffer: ^git\s
+
+  - name: git sts
+    keyword: sts
+    snippet: diff --stat --staged
+    context:
+      lbuffer: ^git\s
+
+  - name: git dfi
+    keyword: dfi
+    snippet: df --ignore-all-space
+    context:
+      lbuffer: ^git\s
+
+  - name: git dfs
+    keyword: dfs
+    snippet: df --staged
+    context:
+      lbuffer: ^git\s
+
+  - name: git dfsi
+    keyword: dfsi
+    snippet: df --staged --ignore-all-space
+    context:
+      lbuffer: ^git\s
+
+  # git fetch
+  - name: git f
+    keyword: f
+    snippet: fetch
+    context:
+      lbuffer: ^git\s
+
+  # git log
+  - name: git lg
+    keyword: lg
+    snippet: graph
     context:
       lbuffer: ^git\s
 
@@ -79,26 +149,6 @@ snippets:
     context:
       lbuffer: ^git\s
 
-  # git commit
-  - name: git c
-    keyword: c
-    snippet: commit -m "{{}}"
-    context:
-      lbuffer: ^git\s
-
-
-  - name: git cm
-    keyword: cm
-    snippet: commit --amend --no-edit
-    context:
-      lbuffer: ^git\s
-
-
-  - name: git cmm
-    keyword: cmm
-    snippet: commit --amend -m "{{}}" 
-    context:
-      lbuffer: ^git\s
 
   # git status
   - name: git s
@@ -107,12 +157,7 @@ snippets:
     context:
       lbuffer: ^git\s
 
-  - name: git g
-    keyword: g
-    snippet: graph
-    context:
-      lbuffer: ^git\s
-
+  # git push
   - name: git ps
     keyword: ps
     snippet: push
@@ -125,6 +170,20 @@ snippets:
     context:
       lbuffer: ^git\s
 
+  - name: git pst
+    keyword: pst
+    snippet: push --tags
+    context:
+      lbuffer: ^git\s
+
+  # git switch
+  - name: git sw
+    keyword: sw
+    snippet: switch
+    context:
+      lbuffer: ^git\s
+
+  # git pull
   - name: git pl
     keyword: pl
     snippet: pull
@@ -137,21 +196,18 @@ snippets:
     context:
       lbuffer: ^git\s
 
-  - name: git f
-    keyword: f
-    snippet: fetch
+  # git current branch name
+  - name: B
+    keyword: B
+    snippet: git symbolic-ref --short HEAD
+    evaluate: true
     context:
       lbuffer: ^git\s
 
-  - name: git d
-    keyword: d
-    snippet: diff
-    context:
-      lbuffer: ^git\s
-
-  - name: git l
-    keyword: l
-    snippet: log
+  - name: OB
+    keyword: OB
+    snippet: zsh -c "echo origin/$(git symbolic-ref --short HEAD)"
+    evaluate: true
     context:
       lbuffer: ^git\s
 
@@ -173,9 +229,9 @@ snippets:
     context:
       lbuffer: ^conda\s
 
-  - name: conda erm
-    keyword: erm
-    snippet: env remove -n {{}} --all
+  - name: conda rmenv
+    keyword: rmenv
+    snippet: remove -n {{}} --all
     context:
       lbuffer: ^conda\s
 
@@ -198,14 +254,7 @@ snippets:
     context:
       lbuffer: ^conda\s
 
-  - name: conda i
-    keyword: i
-    snippet: info -e
-    context:
-      lbuffer: ^conda\s
-
-
-   # homebrew
+ # homebrew
   - name: b
     keyword: b
     snippet: brew
@@ -300,6 +349,13 @@ snippets:
     context:
       lbuffer: ^brew\s
 
+# --version
+  - name: python -v
+    keyword: -v
+    snippet: -V
+    global: true
+    context:
+      lbuffer: ^(python3?|pip3?)\s
 
 .default-options: &default-options
   --exit-0: true
@@ -318,13 +374,37 @@ snippets:
   --nth: "3"
 
 completions:
+   
   # basic command
- 
+  - name: file
+    patterns:
+      - ^\s*(bat|cat|diff|grep|head|less|emacs)(\s+\S+)*\s+$
+    sourceCommand: fd --color=always --hidden --type=f --exclude .git
+    options:
+      <<: *multi-options
+      --preview: fzf-preview-file {}
+    callback: sed 's/ /\\ /g' | paste -s -d ' ' -
+
+  - name: file or directory
+    patterns:
+      - ^\s*(code|cp|ln|mv|rm)(\s+\S+)*\s+$
+    sourceCommand: fd --color=always --hidden --exclude .git
+    options:
+      <<: *default-options
+      --preview: fzf-preview-file {}
+    callback: sed 's/ /\\ /g'
+
   - name: directory
     patterns:
       - ^\s*(cd|la|ll|ls|tree)(\s+\S+)*\s+$
-    sourceCommand: fd --color=always --hidden --type=d
+    sourceCommand: fd --color=always --hidden --type=d --exclude .git
     options:
       <<: *default-options
       --preview: fzf-preview-directory {}
     callback: sed -E 's/ /\\ /g; s,/?$,/,'
+
+   
+  
+  
+  
+  
