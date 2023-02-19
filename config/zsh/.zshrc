@@ -5,38 +5,18 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-### Added by Zinit's installer
-if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
-        print -P "%F{33} %F{34}Installation successful.%f%b" || \
-        print -P "%F{160} The clone has failed.%f%b"
-fi
+### zinit ###
+typeset -gAH ZINIT
+ZINIT[HOME_DIR]="$XDG_DATA_HOME/zinit"
+ZINIT[ZCOMPDUMP_PATH]="$XDG_STATE_HOME/zcompdump"
+source "${ZINIT[HOME_DIR]}/zinit.git/zinit.zsh"
 
-source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
+# powerlevel10k
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
+[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zdharma-continuum/zinit-annex-as-monitor \
-    zdharma-continuum/zinit-annex-bin-gem-node \
-    zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-rust
-
-### End of Zinit's installer chunk
-
-
-# 色を使用できるようにする
-autoload -Uz colors
-colors
-
-# emacs keybind
-# bindkey -e
-
-# ヒストリの設定
+# history
 export HISTFILE=$XDG_STATE_HOME/zsh_history
 export HISTSIZE=1000000
 export SAVEHIST=1000000
@@ -60,7 +40,7 @@ if [[ -n $ZENO_LOADED ]]; then
   # ここに任意のZLEの記述を行う
   bindkey ' '  zeno-auto-snippet
   bindkey '^m' zeno-auto-snippet-and-accept-line
-  bindkey '^i' zeno-completion
+  bindkey '^p' zeno-completion
   bindkey '^g' zeno-ghq-cd
   bindkey '^r' zeno-history-selection
   bindkey '^x' zeno-insert-snippet
@@ -104,19 +84,6 @@ setopt no_beep
 ## 環境変数を補完
 setopt AUTO_PARAM_KEYS
 
-# C で標準出力をクリップボードにコピーする
-# mollifier delta blog : http://mollifier.hatenablog.com/entry/20100317/p1
-if which pbcopy >/dev/null 2>&1 ; then
-    # Mac
-    alias -g C='| pbcopy'
-elif which xsel >/dev/null 2>&1 ; then
-    # Linux
-    alias -g C='| xsel --input --clipboard'
-elif which putclip >/dev/null 2>&1 ; then
-    # Cygwin
-    alias -g C='| putclip'
-fi
-
 # alias
 alias ls="ls -F"
 alias la="ls -a"
@@ -127,13 +94,6 @@ alias mkdir="mkdir -p"
 
 alias py="python3"
 alias em="emacs"
-
-#alias ga="git add"
-#alias gs="git status"
-#alias gg="git graph"
-#alias gcm="git commit -m"
-
-zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -150,5 +110,3 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
-[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh

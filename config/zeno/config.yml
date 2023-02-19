@@ -301,4 +301,30 @@ snippets:
       lbuffer: ^brew\s
 
 
+.default-options: &default-options
+  --exit-0: true
+  --select-1: true
+  --tiebreak: begin,index
+  --height: 60%
+  --cycle: true
+  --preview-window: right:50%
 
+.multi-options: &multi-options
+  <<: *default-options
+  --multi: true
+
+.format-options: &format-options
+  <<: *default-options
+  --nth: "3"
+
+completions:
+  # basic command
+ 
+  - name: directory
+    patterns:
+      - ^\s*(cd|la|ll|ls|tree)(\s+\S+)*\s+$
+    sourceCommand: fd --color=always --hidden --type=d
+    options:
+      <<: *default-options
+      --preview: fzf-preview-directory {}
+    callback: sed -E 's/ /\\ /g; s,/?$,/,'
