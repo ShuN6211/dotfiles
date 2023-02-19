@@ -46,6 +46,13 @@ export PATH=$POETRY_HOME/bin:$PATH
 # fzf
 export FZF_DEFAULT_OPTS='--reverse'
 
+# zeno
+export ZENO_HOME="$XDG_CONFIG_HOME/zeno"
+export ZENO_ENABLE_SOCK=1
+# export ZENO_DISABLE_BUILTIN_COMPLETION=1
+export ZENO_GIT_CAT="bat --color=always"
+export ZENO_GIT_TREE="exa --tree"
+
 
 # java tomcat
 #export JAVA_HOME=$(/usr/libexec/java_home v 1.0)
