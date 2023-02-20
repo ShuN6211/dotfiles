@@ -378,7 +378,7 @@ completions:
   # basic command
   - name: file
     patterns:
-      - ^\s*(bat|cat|diff|grep|head|less|emacs)(\s+\S+)*\s+$
+      - ^\s*(bat|cat|diff|grep|head|less)(\s+\S+)*\s+$
     sourceCommand: fd --color=always --hidden --type=f --exclude .git
     options:
       <<: *multi-options
@@ -387,7 +387,7 @@ completions:
 
   - name: file or directory
     patterns:
-      - ^\s*(code|cp|ln|mv|rm)(\s+\S+)*\s+$
+      - ^\s*(code|cp|ln|mv|rm|emacs)(\s+\S+)*\s+$
     sourceCommand: fd --color=always --hidden --exclude .git
     options:
       <<: *default-options
