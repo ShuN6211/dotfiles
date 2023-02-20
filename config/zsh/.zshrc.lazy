@@ -1,0 +1,40 @@
+# alias
+alias ls="ls -F"
+alias la="ls -a"
+alias ll="ls -l"
+alias lla="ls -la"
+alias mkdir="mkdir -p"
+alias python="python3"
+
+
+## コマンド補完
+zinit ice wait lucid
+zinit light zsh-users/zsh-completions
+FPATH=$(brew --prefix)/completions/zsh:$FPATH # brew
+autoload -Uz compinit && compinit
+
+
+## zeno
+zinit ice lucid depth"1" blockf
+zinit light yuki-yano/zeno.zsh
+
+if [[ -n $ZENO_LOADED ]]; then
+  # ここに任意のZLEの記述を行う
+  bindkey ' '  zeno-auto-snippet
+  bindkey '^m' zeno-auto-snippet-and-accept-line
+  bindkey '^p' zeno-completion
+  bindkey '^g' zeno-ghq-cd
+  bindkey '^r' zeno-history-selection
+  bindkey '^x' zeno-insert-snippet
+fi
+
+## 履歴補完
+zinit ice wait lucid
+zinit light zsh-users/zsh-autosuggestions
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS=(zeno-auto-snippet-and-accept-line $ZSH_AUTOSUGGEST_CLEAR_WIDGETS)
+
+## シンタックスハイライト
+zinit ice wait lucid
+zinit light zdharma-continuum/fast-syntax-highlighting
+
