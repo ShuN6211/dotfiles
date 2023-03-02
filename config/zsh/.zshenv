@@ -35,6 +35,9 @@ export FLASK_APP=api:app
 export GOPATH=$XDG_DATA_HOME/go
 export PATH=$PATH:$GOPATH/bin
 
+# julia
+export JULIA_DEPOT_PATH="$XDG_DATA_HOME/julia:$JULIA_DEPOT_PATH"
+
 # poetry
 export POETRY_HOME=$XDG_DATA_HOME/pypoetry
 export PATH=$PATH:$HOME/.local/bin
