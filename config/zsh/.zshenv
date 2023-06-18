@@ -56,7 +56,8 @@ export ZENO_ENABLE_SOCK=1
 export ZENO_GIT_CAT="bat --color=always"
 export ZENO_GIT_TREE="exa --tree"
 
-
+# perl
+eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
 # java tomcat
 #export JAVA_HOME=$(/usr/libexec/java_home v 1.0)
 #export PATH=$PATH:$JAVA_HOME/bin
@@ -64,3 +65,4 @@ export ZENO_GIT_TREE="exa --tree"
 #export CATALINA_HOME=/opt/homebrew/opt/tomcat@8/libexec
 #export CATALINA_OPTS='-Dfile.encoding=UTF-8'
 #export CLASSPATH=$CATALINA_HOME/lib/servlet-api.jar
+. "$HOME/.cargo/env"
