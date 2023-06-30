@@ -35,6 +35,8 @@ unset __conda_setup
 export HISTFILE="$XDG_STATE_HOME/zsh_history"
 export HISTSIZE=12000
 export SAVEHIST=10000
+# zsh_sessionsを作らない
+export SHELL_SESSIONS_DISABLE=1
 
 setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS
