@@ -28,12 +28,12 @@ export ZDOTDIR=$XDG_CONFIG_HOME/zsh
 export CONDARC=$XDG_CONFIG_HOME/conda/condarc
 
 # flask
-export FLASK_ENV=development
-export FLASK_APP=api:app
+# export FLASK_ENV=development
+# export FLASK_APP=api:app
 
 # Go
-export GOPATH=$XDG_DATA_HOME/go
-export PATH=$PATH:$GOPATH/bin
+# export GOPATH=$XDG_DATA_HOME/go
+# export PATH=$PATH:$GOPATH/bin
 
 # julia
 export JULIA_DEPOT_PATH="$XDG_DATA_HOME/julia:$JULIA_DEPOT_PATH"
@@ -65,4 +65,6 @@ eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
 #export CATALINA_HOME=/opt/homebrew/opt/tomcat@8/libexec
 #export CATALINA_OPTS='-Dfile.encoding=UTF-8'
 #export CLASSPATH=$CATALINA_HOME/lib/servlet-api.jar
+
+# Rust
 . "$HOME/.cargo/env"
