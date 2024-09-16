@@ -5,7 +5,13 @@ snippets/
 backup/
 request/
 var
-zsh_plugin/
 config/iterm2/AppSupport
-.zcomp*
+
+### Local settings ###
+*.local
+local.*
+!local.*.sample
+
+### Zsh cache ###
 *.zwc
+.zcomp*
