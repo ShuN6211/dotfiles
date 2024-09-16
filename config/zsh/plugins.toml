@@ -1,0 +1,77 @@
+# `sheldon` configuration file
+# ----------------------------
+#
+# You can modify this file directly or you can use one of the following
+# `sheldon` commands which are provided to assist in editing the config file:
+#
+# - `sheldon add` to add a new plugin to the config file
+# - `sheldon edit` to open up the config file in the default editor
+# - `sheldon remove` to remove a plugin from the config file
+#
+# See the documentation for more https://github.com/rossmacarthur/sheldon#readme
+
+shell = "zsh"
+
+apply = ["defer"]
+
+[templates]
+defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
+
+[plugins]
+
+[plugins.zsh-defer]
+github = "romkatv/zsh-defer"
+apply = ["source"]
+
+[plugins.powerlevel10k]
+github = "romkatv/powerlevel10k"
+apply = ["source"]
+
+[plugins.conda]
+local = "~/.config/zsh"
+use = ["conda.zsh"]
+apply = ["source"]
+
+####################
+# lazy
+####################
+
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+dir = "src"
+apply = ["fpath"]
+
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+
+[plugins.fast-syntax-highlighting]
+github = "zdharma-continuum/fast-syntax-highlighting"
+
+[plugins.zeno]
+github = "yuki-yano/zeno.zsh"
+hooks.pre = """
+export ZENO_HOME="$XDG_CONFIG_HOME/zeno"
+export ZENO_ENABLE_SOCK=1
+# export ZENO_DISABLE_BUILTIN_COMPLETION=1
+export ZENO_GIT_CAT="bat --color=always"
+export ZENO_GIT_TREE="exa --tree"
+"""
+hooks.post = """
+bindkey ' '  zeno-auto-snippet
+bindkey '^m' zeno-auto-snippet-and-accept-line
+bindkey '^i' zeno-completion
+bindkey '^g' zeno-ghq-cd
+bindkey '^r' zeno-history-selection
+bindkey '^x' zeno-insert-snippet
+"""
+
+[plugins.lazy]
+local = "~/.config/zsh"
+use = ["lazy.zsh"]
+
+[plugins.compinit]
+inline = """
+autoload -Uz compinit
+compinit -d "$XDG_STATE_HOME/zcompdump"
+"""
+
