@@ -1,11 +1,11 @@
-.lsp-session-v1
-elpa/
-init.elc
-snippets/
-backup/
-request/
-var
-zsh_plugin/
+### iterm ###
 config/iterm2/AppSupport
-.zcomp*
+
+### Local settings ###
+*.local
+local.*
+!local.*.sample
+
+### Zsh cache ###
 *.zwc
+.zcomp*
