@@ -11,3 +11,8 @@
 - [Deno](https://deno.com/)
   - [zeno.zsh](https://github.com/yuki-yano/zeno.zsh) uses deno.
   - Install deno using one of the install options you prefer.
+
+## Install
+```shell
+curl -sL https://raw.githubusercontent.com/ShuN6211/dotfiles/refs/heads/main/install.sh | sh
+```
