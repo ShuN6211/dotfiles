@@ -1,10 +1,12 @@
-.lsp-session-v1
+### emacs ###
 elpa/
 init.elc
 snippets/
 backup/
 request/
 var
+
+### iterm ###
 config/iterm2/AppSupport
 
 ### Local settings ###
