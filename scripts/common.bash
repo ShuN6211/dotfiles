@@ -5,10 +5,12 @@ export CUR_DIR REPO_DIR
 CUR_DIR="$(
     cd "$(dirname "$0")" || exit 1
     pwd
+    ls -a
 )"
 REPO_DIR="$(
     cd "$(dirname "$0")/.." || exit 1
     pwd
+    ls -a
 )"
 
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
