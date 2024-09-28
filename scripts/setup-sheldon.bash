@@ -3,11 +3,12 @@ set -x
 # shellcheck source=./scripts/common.bash
 source "$(dirname "$0")/common.bash"
 
-if [ -d "$XDG_DATA_HOME/sheldon/bin" ]; then
-    echo "sheldon is already installed."
+if [ ! -e "$CARGO_HOME/env" ]; then
+    echo "Installing Rust..."
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | /bin/sh -s -- -y --no-modify-path
 else
-    echo "Installing sheldon..."
-    curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
-    | bash -s -- --repo rossmacarthur/sheldon --to "$XDG_DATA_HOME/bin"
-    ln -s "$XDG_DATA_HOME/sheldon/bin/sheldon" "$HOME/.local/bin/sheldon"
+    echo "Rust is already installed, skipping the procedure"
 fi
+
+. "$CARGO_HOME/env"
+cargo install sheldon
