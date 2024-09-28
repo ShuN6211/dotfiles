@@ -7,5 +7,9 @@ export XDG_CACHE_HOME=$HOME/.cache
 # ZDOTDIR
 export ZDOTDIR=$XDG_CONFIG_HOME/zsh
 
+# Rust
+export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+
 ### sheldon ###
 export SHELDON_CONFIG_DIR="$ZDOTDIR"
