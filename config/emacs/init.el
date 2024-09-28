@@ -295,18 +295,6 @@
    :custom ((blacken-line-length . 119)               ; 1行の流さを119文字まで許可
             (blacken-skip-string-normalization . t))) ; 文字リテラルで '' を""に変えない.
 
-;; jupyter
-(leaf ein
-  :doc "Emacs IPython Notebook"
-  :req "emacs-25" "websocket-1.12" "anaphora-1.0.4" "request-0.3.3" "deferred-0.5" "polymode-0.2.2" "dash-2.13.0" "with-editor-0.-1"
-  :tag "reproducible research" "literate programming" "jupyter" "emacs>=25"
-  :url "https://github.com/dickmao/emacs-ipython-notebook"
-  :added "2022-11-19"
-  :emacs>= 25
-  :custom (ein:polymode . t)
-  :ensure t
-  )
-
 ;; isort
 (leaf py-isort :ensure t)
 
