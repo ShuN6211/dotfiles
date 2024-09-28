@@ -1,11 +1,11 @@
 # recommended scripts for homebrew
 case "$OSTYPE" in
-    darwin*)
-        export HOMEBREW_PREFIX="/opt/homebrew"
-        export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
-        export HOMEBREW_REPOSITORY="/opt/homebrew"
-        export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:"
-        export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}"
+darwin*)
+    export HOMEBREW_PREFIX="/opt/homebrew"
+    export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
+    export HOMEBREW_REPOSITORY="/opt/homebrew"
+    export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:"
+    export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}"
     ;;
 esac
 
@@ -41,7 +41,7 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 # 塗りつぶし
 zstyle ':completion:*' menu select
 ## 補完候補を一覧表示したとき、Tabや矢印で選択できるようにする
-zstyle ':completion:*:default' menu select=1 
+zstyle ':completion:*:default' menu select=1
 # ../ の後は今いるディレクトリを補完しない
 zstyle ':completion:*' ignore-parents parent pwd ..
 setopt correct
@@ -49,6 +49,6 @@ setopt no_beep
 setopt AUTO_PARAM_KEYS
 
 ### key-bindings
-bindkey "^A"        beginning-of-line               # C-a
-bindkey "^E"        end-of-line                     # C-e
-bindkey "^K"        kill-line                       # C-k
+bindkey "^A" beginning-of-line # C-a
+bindkey "^E" end-of-line       # C-e
+bindkey "^K" kill-line         # C-k

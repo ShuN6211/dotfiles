@@ -22,6 +22,7 @@ path=(
 
 path=(
     "$HOME/.local/bin"(N-/)
+    "$CARGO_HOME/bin"(N-/)
     "$DENO_INSTALL/bin"(N-/)
     "$path[@]"
 )
