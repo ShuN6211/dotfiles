@@ -266,54 +266,6 @@
   (c++-mode-hook . ((c-set-style "bsd")
                     (setq c-basic-offset 4))))
 
-;; lsp
-
-(leaf lsp-mode
-  :doc "LSP mode"
-  :tag "languages" "emacs>=26.1"
-  :url "https://github.com/emacs-lsp/lsp-mode"
-  :added "2022-07-22"
-  :emacs>= 26.1
-  :ensure t
-  :commands (lsp lsp-deferred)
-  :custom ((lsp-keymap-prefix . "C-c l"))
-  :hook (lsp-mode-hook . lsp-headerline-breadcrumb-mode)
-  )
-
-(leaf lsp-ui
-  :doc "UI modules for lsp-mode"
-  :req "emacs-26.1" "dash-2.18.0" "lsp-mode-6.0" "markdown-mode-2.3"
-  :tag "tools" "languages" "emacs>=26.1"
-  :url "https://github.com/emacs-lsp/lsp-ui"
-  :added "2022-11-19"
-  :emacs>= 26.1
-  :ensure t
-  :custom ((lsp-ui-doc-enable            . t)
-           (lsp-ui-doc-position          . 'at-point)
-           (lsp-ui-doc-header            . t)
-           (lsp-ui-doc-include-signature . t)
-           (lsp-ui-doc-max-width         . 150)
-           (lsp-ui-doc-max-height        . 30)
-           (lsp-ui-doc-use-childframe    . nil)
-           (lsp-ui-doc-use-webkit        . nil)
-           (lsp-ui-peek-enable           . t)
-           (lsp-ui-peek-peek-height      . 20)
-           (lsp-ui-peek-list-width       . 50))
-  )
-
-(leaf lsp-pyright
-  :doc "Python LSP client using Pyright"
-  :req "emacs-26.1" "lsp-mode-7.0" "dash-2.18.0" "ht-2.0"
-  :tag "lsp" "tools" "languages" "emacs>=26.1"
-  :url "https://github.com/emacs-lsp/lsp-pyright"
-  :added "2022-07-22"
-  :emacs>= 26.1
-  :ensure t
-  :hook (python-mode-hook . (lambda ()
-                          (require 'lsp-pyright)
-                          (lsp)))  ; or lsp-deferred
-  ) 
-
 ;; python
 
 (leaf python-mode
