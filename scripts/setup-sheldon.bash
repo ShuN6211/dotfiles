@@ -3,7 +3,7 @@ set -x
 # shellcheck source=./scripts/common.bash
 source "$(dirname "$0")/common.bash"
 
-if [ ! -e "$CARGO_HOME/env" ]; then
+if type $CARGO_HOME/bin/cargo >/dev/null; then
     echo "Installing Rust..."
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | /bin/sh -s -- -y --no-modify-path
 else
