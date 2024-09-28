@@ -1,97 +1,67 @@
-
-;; download leaf
-;; <leaf-install-code>
 (eval-and-compile
   (customize-set-variable
-   'package-archives '(("org" . "https://orgmode.org/elpa/")
-                       ("melpa" . "https://melpa.org/packages/")
-                       ("gnu" . "https://elpa.gnu.org/packages/")))
+   'package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                       ("melpa" . "https://melpa.org/packages/")))
   (package-initialize)
-  (unless (package-installed-p 'leaf)
-    (package-refresh-contents)
-    (package-install 'leaf))
+  (use-package leaf :ensure t)
 
   (leaf leaf-keywords
     :ensure t
     :init
-    ;; optional packages if you want to use :hydra, :el-get, :blackout,,,
-    (leaf hydra :ensure t)
-    (leaf el-get :ensure t)
     (leaf blackout :ensure t)
-
     :config
-    ;; initialize leaf-keywords.el
     (leaf-keywords-init)))
-;; </leaf-install-code>
-;; now you can use leaf
 
-;;;; leaf-convert, tree, macrostep
+(leaf leaf-convert
+  :doc "Convert many format to leaf format"
+  :ensure t)
 
-(leaf leaf
-  :config
-  (leaf leaf-convert :ensure t)
-  (leaf leaf-tree
-    :ensure t
-    :custom ((imenu-list-size . 30)
-             (imenu-list-position . 'left))))
-
-(leaf macrostep
-  :ensure t
-  :bind (("C-c e" . macrostep-expand)))
-
-;; 2重管理予防
 (leaf cus-edit
   :doc "tools for customizing Emacs and Lisp packages"
-  :tag "builtin" "faces" "help"
   :custom `((custom-file . ,(locate-user-emacs-file "custom.el"))))
 
-;; 基本的な設定
-;; emacs テーマ選択
-(load-theme 'manoj-dark t)
+(leaf cus-start
+  :doc "define customization properties of builtins"
+  :preface
+  (defun c/redraw-frame nil
+    (interactive)
+    (redraw-frame))
 
-;; y or n
-(fset 'yes-or-no-p 'y-or-n-p)
-
-;; clip board
-(setq select-enable-clipboard t)
-
-;; 括弧の補完
-;;(electric-pair-mode t)
-
-;; リージョンのハイライト
-(transient-mark-mode t)
-
-;; 現在位置列数表示
-(column-number-mode t)
-
-;; line number の表示
-(global-linum-mode t)
-
-;; line number を分かりやすくする
-(set-face-attribute 'linum nil
-            :foreground "#a9a9a9"
-            :background "#404040"
-            :height 0.9)
-;; スタートアップメッセージを表示させない
-(setq inhibit-startup-message t)
-
-;; スクロールは 1 行ごと
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 5)))
-
-;; スクロールの加速をやめる
-(setq mouse-wheel-progressive-speed nil)
-
-;; 大文字・小文字を区別しない
-(setq case-fold-search t)
-
-;; utf-8
-(leaf leaf-convert
+  :bind (("M-ESC ESC" . c/redraw-frame))
+  :custom '((user-full-name . "Shun Makino")
+            (user-login-name . "ShuN")
+            (create-lockfiles . nil)
+            (tab-width . 4)
+            (debug-on-error . t)
+            (init-file-debug . t)
+            (frame-resize-pixelwise . t)
+            (enable-recursive-minibuffers . t)
+            (history-length . 1000)
+            (transient-mark-mode . t)
+            (history-delete-duplicates . t)
+            (scroll-preserve-screen-position . t)
+            (scroll-conservatively . 100)
+            (mouse-wheel-scroll-amount . '(1 ((control) . 5)))
+            (select-enable-clipboard . t)
+            (case-fold-search . t)
+            (ring-bell-function . 'ignore)
+            (text-quoting-style . 'straight)
+            (mouse-wheel-progressive-speed . nil)
+            (truncate-lines . t)
+            (inhibit-startup-message . t)
+            (use-dialog-box . nil)
+            (use-file-dialog . nil)
+            (menu-bar-mode . t)
+            (tool-bar-mode . nil)
+            (scroll-bar-mode . nil)
+            (global-display-line-numbers-mode . t )
+            (indent-tabs-mode . nil))
   :config
-  (set-language-environment "japanese")
-  (set-default-coding-systems 'utf-8)
-  (set-terminal-coding-system 'utf-8)
-  (set-keyboard-coding-system 'utf-8)
-  (set-buffer-file-coding-system 'utf-8))
+  (defalias 'yes-or-no-p 'y-or-n-p)
+  (keyboard-translate ?\C-h ?\C-?))
+
+;; theme
+(load-theme 'manoj-dark t)
 
 (leaf editorconfig
   :ensure t
@@ -207,7 +177,7 @@
   :custom ((ivy-prescient-retain-classic-highlighting . t))
 :global-minor-mode t)
 
-;; flycheck 構文チェッカー
+;; flycheck
 (leaf flycheck
   :doc "On-the-fly syntax checking"
   :req "dash-2.12.1" "pkg-info-0.4" "let-alist-1.0.4" "seq-1.11" "emacs-24.3"
@@ -266,60 +236,12 @@
   (c++-mode-hook . ((c-set-style "bsd")
                     (setq c-basic-offset 4))))
 
-;; python
-
-(leaf python-mode
-  :doc "Python major mode"
-  :tag "oop" "python" "processes" "languages"
-  :url "https://gitlab.com/groups/python-mode-devs"
-  :added "2022-07-12"
-  :ensure t
-  :custom (python-indent-guess-indent-offset . nil))
-
-;; smartparens 括弧の補完など.
-(leaf smartparens
-  :ensure t                                        
-  :require smartparens-config
-  :custom ((electric-pair-mode . nil))) ; electirc-pair-modeを無効化.
-
-;; rainbow-delimiters 括弧の強調表示
-(leaf rainbow-delimiters
-  :ensure t
-  :hook
-  ((prog-mode-hook       . rainbow-delimiters-mode)))
-
-
-;; formatter, blacken
-(leaf blacken
-   :ensure t
-   :custom ((blacken-line-length . 119)               ; 1行の流さを119文字まで許可
-            (blacken-skip-string-normalization . t))) ; 文字リテラルで '' を""に変えない.
-
-;; isort
-(leaf py-isort :ensure t)
-
-(leaf highlight-indent-guides
-  :ensure t
-  :blackout t
-  :hook (((prog-mode-hook yaml-mode-hook) . highlight-indent-guides-mode))
-  :custom (
-           (highlight-indent-guides-method . 'character)
-           (highlight-indent-guides-auto-enabled . t)
-           (highlight-indent-guides-responsive . t)
-           (highlight-indent-guides-character . ?\|)))
-
 ;; コードの先頭, 末尾への移動, 行頭, 行末への移動.
 (leaf mwim
   :ensure t
   :bind (("C-a" . mwim-beginning-of-code-or-line)
          ("C-e" . mwim-end-of-code-or-line)))
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "black" :foreground "WhiteSmoke" :inverse-video nil :box nil :strike-through nil :extend nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :foundry "nil" :family "Cica")))))
 
 ;; end of init.el
 (provide 'init)
