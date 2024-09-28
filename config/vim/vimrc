@@ -1,0 +1,117 @@
+syntax on
+filetype plugin on
+
+""" Options """
+set fenc=utf-8
+set hidden
+set autoread
+set showcmd
+set signcolumn=yes
+" Indentation
+set autoindent
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set shiftround
+set smarttab
+set list
+set listchars=tab:>-,trail:-,extends:>,precedes:<,nbsp:%
+" Views
+set title
+set number
+set relativenumber
+set cursorline
+set showmatch
+set laststatus=2
+set statusline=%F%m\ %<[%{&fenc!=''?&fenc:&enc}]\ [%Y]\ [ln:%l,col:%v]
+set showtabline=2
+" Controls
+set mouse=a
+set whichwrap=b,s,h,l,<,>,[,],~
+" Search
+set hlsearch
+set incsearch
+set smartcase
+set ignorecase
+" Split
+set splitbelow
+set splitright
+" Backspace
+set backspace=indent,eol,start
+" Menu
+set wildmenu
+set wildmode=longest:full,full
+
+" .viminfo
+set viminfo+=n~/.local/share/vim/viminfo
+
+""" Keymaps """
+nnoremap ;      :
+nnoremap <silent>j      gj
+nnoremap <silent>k      gk
+nnoremap <silent><Down> gj
+nnoremap <silent><Up>   gk
+nnoremap <silent><C-a>  ^
+nnoremap <silent><C-e>  $
+inoremap <silent> jj <ESC>
+vnoremap <silent><C-a>  ^
+vnoremap <silent><C-e>  $
+
+""" terminal """
+command! -nargs=* T botright term <args>
+
+""" Packages """
+let g:Packages = {}
+let g:PackageDir = $HOME . '/.vim/pack/plugins'
+
+function! Package(repo, ...)
+    let arg = get(a:, 1, {})
+    let base = has_key(arg, 'base') ? arg.base : 'start'
+
+    let url = 'https://github.com/' . a:repo
+    let path = g:PackageDir . '/' . base . '/' . substitute(a:repo, '/', '--', 'g')
+
+    let g:Packages[a:repo] = {
+    \   'path': path,
+    \   'url': url,
+    \   'arg': arg,
+    \ }
+
+    if isdirectory(path)
+        return
+    endif
+
+    echo 'install ' . a:repo
+    echo system('git clone ' . shellescape(url) . ' ' . shellescape(path))
+
+    if has_key(arg, 'build')
+        echo system('cd ' . shellescape(path) . ';' . arg.build)
+    endif
+endfunction
+
+function! PackageUpdate()
+    for repo in keys(g:Packages)
+        let path = g:Packages[repo].path
+
+        echo 'update ' . repo
+        echo system('git -C ' . shellescape(path) . ' pull')
+    endfor
+endfunction
+
+command! PackageUpdate call PackageUpdate()
+
+" Editorconfig
+call Package('editorconfig/editorconfig-vim')
+
+" Colorschemes
+call Package('tomasiser/vim-code-dark')
+
+colorscheme codedark
+
+" fzf.vim
+call Package('junegunn/fzf', { 'build': 'bash install --bin' })
+call Package('junegunn/fzf.vim')
+
+nnoremap <silent>//     :BLines<CR>
+nnoremap <silent><C-f>  :Lines<CR>
+nnoremap <silent><C-p>  :Files<CR>
