@@ -1,7 +1,7 @@
 # dotfiles
 
-![](https://github.com/ShuN6211/dotfiles/workflows/macOS/badge.svg)
-![](https://github.com/ShuN6211/dotfiles/workflows/Lint/badge.svg)
+![macOS](https://github.com/ShuN6211/dotfiles/workflows/macOS/badge.svg)
+![Lint](https://github.com/ShuN6211/dotfiles/workflows/Lint/badge.svg)
 
 - My dotfiles: config files and build scripts.
 - I follow the design specified in [XDG_Base_Directory](https://wiki.archlinux.org/title/XDG_Base_Directory).
