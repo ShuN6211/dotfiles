@@ -1,0 +1,15 @@
+name: LocalMacOS
+
+on: [push]
+
+jobs:
+  localMacOS:
+    name: LocalMacOS
+    runs-on: macOS-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run setup
+        run: /bin/bash ./scripts/setup.bash
