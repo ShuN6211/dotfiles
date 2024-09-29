@@ -22,7 +22,6 @@ brew "vim"
 brew "wget"
 brew "zsh"
 
-cask "clipy"
 cask "emacs"
 cask "firefox"
 cask "google-chrome"
