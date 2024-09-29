@@ -1,5 +1,8 @@
 # dotfiles
 
+![](https://github.com/ShuN6211/dotfiles/workflows/macOS/badge.svg)
+![](https://github.com/ShuN6211/dotfiles/workflows/Lint/badge.svg)
+
 - My dotfiles: config files and build scripts.
 - I follow the design specified in [XDG_Base_Directory](https://wiki.archlinux.org/title/XDG_Base_Directory).
   
@@ -14,6 +17,15 @@
 
 ## Install
 
+- Install via curl.
+
 ```shell
 curl -sL https://raw.githubusercontent.com/ShuN6211/dotfiles/refs/heads/main/install.sh | sh
+```
+
+- Install on local.
+
+```shell
+git clone git@github.com:ShuN6211/dotfiles.git
+/bash/bin/ ./scripts/setup.bash
 ```
