@@ -1,4 +1,4 @@
-name: macOS
+name: ubuntu
 
 on:
   push:
@@ -7,8 +7,8 @@ on:
 
 jobs:
   macOS:
-    name: macOS
-    runs-on: macOS-latest
+    name: ubuntu
+    runs-on: ubuntu-latest
 
     steps:
       - name: Setup

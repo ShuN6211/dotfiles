@@ -1,6 +1,7 @@
 # dotfiles
 
 ![macOS](https://github.com/ShuN6211/dotfiles/workflows/macOS/badge.svg)
+![ubuntu](https://github.com/ShuN6211/dotfiles/workflows/ubuntu/badge.svg)
 ![Lint](https://github.com/ShuN6211/dotfiles/workflows/Lint/badge.svg)
 
 - My dotfiles: config files and build scripts.

@@ -1,6 +1,9 @@
 name: LocalMacOS
 
-on: [push]
+on:
+  push:
+    branches-ignore:
+      - main
 
 jobs:
   localMacOS:
@@ -9,6 +12,7 @@ jobs:
 
     steps:
       - name: Checkout
+
         uses: actions/checkout@v2
 
       - name: Run setup

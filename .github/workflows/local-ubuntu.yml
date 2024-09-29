@@ -1,0 +1,19 @@
+name: LocalUbuntu
+
+on:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  localMacOS:
+    name: LocalUbuntu
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+
+        uses: actions/checkout@v2
+
+      - name: Run setup
+        run: /bin/bash ./scripts/setup.bash
