@@ -13,6 +13,7 @@
   - Install deno using one of the install options you prefer.
 
 ## Install
+
 ```shell
 curl -sL https://raw.githubusercontent.com/ShuN6211/dotfiles/refs/heads/main/install.sh | sh
 ```
