@@ -7,6 +7,10 @@ export XDG_CACHE_HOME=$HOME/.cache
 # ZDOTDIR
 export ZDOTDIR=$XDG_CONFIG_HOME/zsh
 
+### Deno ###
+export DENO_INSTALL="$XDG_DATA_HOME/deno"
+export DENO_INSTALL_ROOT="$DENO_INSTALL"
+
 # Rust
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
