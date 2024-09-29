@@ -23,7 +23,6 @@ brew "wget"
 brew "zsh"
 
 cask "emacs"
-cask "firefox"
 cask "google-chrome"
 cask "google-japanese-ime"
 cask "iterm2"
