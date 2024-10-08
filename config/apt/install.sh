@@ -13,6 +13,8 @@ apt-get install -y \
     git \
     tig \
     gpg \
+    python3 \
+    python3-pip \
     jq \
     shellcheck \
     tmux \
