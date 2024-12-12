@@ -11,6 +11,9 @@ export ZDOTDIR=$XDG_CONFIG_HOME/zsh
 export DENO_INSTALL="$XDG_DATA_HOME/deno"
 export DENO_INSTALL_ROOT="$DENO_INSTALL"
 
+### nvm ###
+export NVM_DIR="$XDG_DATA_HOME/nvm"
+
 # Rust
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"

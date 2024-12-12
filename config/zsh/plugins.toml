@@ -32,6 +32,12 @@ local = "~/.config/zsh"
 use = ["conda.zsh"]
 apply = ["source"]
 
+[plugins.nvm]
+inline = """
+[ -s "$NVM_DIR/nvm.sh" ] && \
+source "$NVM_DIR/nvm.sh"  # This loads nvm
+"""
+
 ####################
 # lazy
 ####################
