@@ -22,6 +22,8 @@
 
 ```shell
 curl -sL https://raw.githubusercontent.com/ShuN6211/dotfiles/refs/heads/main/install.sh | sh
+git config --global user.name "your name"
+git config --global user.email "your email"
 ```
 
 - Install on local.
@@ -30,4 +32,6 @@ curl -sL https://raw.githubusercontent.com/ShuN6211/dotfiles/refs/heads/main/ins
 git clone git@github.com:ShuN6211/dotfiles.git
 cd dotfiles
 /bin/bash ./scripts/setup.bash
+git config --global user.name "your name"
+git config --global user.email "your email"
 ```
