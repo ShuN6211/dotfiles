@@ -17,6 +17,11 @@
 
 [delta]
     line-numbers = true
+    side-by-side = true
+    navigate = true
+
+[merge]
+    conflictstyle = zdiff3
 
 [ghq]
 	root = ~/workspace
