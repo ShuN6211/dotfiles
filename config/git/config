@@ -4,12 +4,23 @@
 
 [core]
 	editor = vim
+    pager = delta
 
 [init]
 	defaultBranch = main
+
+[commit]
+    verbose = true
+
+[diff]
+    algorithm = histogram
+
+[delta]
+    line-numbers = true
 
 [ghq]
 	root = ~/workspace
 
 [alias]
 	graph = log --graph --date-order --all --pretty=format:'%h %Cred%d %Cgreen%ad %Cblue%cn %Creset%s' --date=short
+    uncommit = reset --soft HEAD^
