@@ -29,6 +29,7 @@ path=(
 
 fpath=(
     "$XDG_DATA_HOME/zsh/completions"(N-/)
+    "/opt/homebrew/completions/zsh"(N-/)
     "$fpath[@]"
 )
 
