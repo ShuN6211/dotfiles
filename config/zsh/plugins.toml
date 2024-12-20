@@ -54,6 +54,13 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
 ZSH_AUTOSUGGEST_CLEAR_WIDGETS=(zeno-auto-snippet-and-accept-line $ZSH_AUTOSUGGEST_CLEAR_WIDGETS)
 """
 
+[plugins.zsh-history-substring-search]
+github = "zsh-users/zsh-history-substring-search"
+hooks.post = """
+bindkey "^[[A" history-substring-search-up   # arrow-up
+bindkey "^[[B" history-substring-search-down # arrow-down
+"""
+
 [plugins.fast-syntax-highlighting]
 github = "zdharma-continuum/fast-syntax-highlighting"
 
