@@ -21,7 +21,7 @@
     navigate = true
 
 [merge]
-    conflictstyle = zdiff3
+	conflictStyle = diff3
 
 [ghq]
 	root = ~/workspace
