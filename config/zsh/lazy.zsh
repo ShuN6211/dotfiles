@@ -9,9 +9,25 @@ darwin*)
     ;;
 esac
 
-# fzf
-export FZF_DEFAULT_OPTS='--reverse --border --ansi --bind="ctrl-d:print-query,ctrl-p:replace-query"'
-export FZF_DEFAULT_COMMAND='fd --hidden --color=always'
+### replace BSD to GNU ###
+case "$OSTYPE" in
+    darwin*)
+        (( ${+commands[gdate]} )) && alias date='gdate'
+        (( ${+commands[gls]} )) && alias ls='gls'
+        (( ${+commands[gmkdir]} )) && alias mkdir='gmkdir'
+        (( ${+commands[gcp]} )) && alias cp='gcp'
+        (( ${+commands[gmv]} )) && alias mv='gmv'
+        (( ${+commands[grm]} )) && alias rm='grm'
+        (( ${+commands[gdu]} )) && alias du='gdu'
+        (( ${+commands[ghead]} )) && alias head='ghead'
+        (( ${+commands[gtail]} )) && alias tail='gtail'
+        (( ${+commands[gsed]} )) && alias sed='gsed'
+        (( ${+commands[ggrep]} )) && alias grep='ggrep'
+        (( ${+commands[gfind]} )) && alias find='gfind'
+        (( ${+commands[gdirname]} )) && alias dirname='gdirname'
+        (( ${+commands[gxargs]} )) && alias xargs='gxargs'
+    ;;
+esac
 
 # alias
 alias ls="ls -F"
@@ -21,31 +37,13 @@ alias lla="ls -la"
 alias mkdir="mkdir -p"
 alias python="python3"
 
-setopt AUTO_PUSHD
-setopt PUSHD_IGNORE_DUPS
-setopt GLOBDOTS
-setopt APPEND_HISTORY
-setopt EXTENDED_HISTORY
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_IGNORE_SPACE
-setopt HIST_REDUCE_BLANKS
-setopt HIST_SAVE_NO_DUPS
-setopt INTERACTIVE_COMMENTS
-setopt NO_SHARE_HISTORY
-setopt MAGIC_EQUAL_SUBST
-setopt PRINT_EIGHT_BIT
-setopt NO_FLOW_CONTROL
-# ../ の後は今いるディレクトリを補完しない
-zstyle ':completion:*' ignore-parents parent pwd ..
-setopt correct
-setopt no_beep
-setopt AUTO_PARAM_KEYS
-# 補完で大文字にもマッチ
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-# 塗りつぶし
-zstyle ':completion:*' menu select
-## 補完候補を一覧表示したとき、Tabや矢印で選択できるようにする
+### completion styles ###
 zstyle ':completion:*:default' menu select=1
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# fzf
+export FZF_DEFAULT_OPTS='--reverse --border --ansi --bind="ctrl-d:print-query,ctrl-p:replace-query"'
+export FZF_DEFAULT_COMMAND='fd --hidden --color=always'
 
 ### key-bindings
 bindkey "^A" beginning-of-line # C-a
