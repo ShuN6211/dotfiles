@@ -14,6 +14,9 @@ export DENO_INSTALL_ROOT="$DENO_INSTALL"
 ### nvm ###
 export NVM_DIR="$XDG_DATA_HOME/nvm"
 
+### volta ###
+export VOLTA_HOME="$XDG_DATA_HOME/.volta"
+
 # Rust
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
