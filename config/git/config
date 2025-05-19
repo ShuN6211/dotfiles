@@ -1,6 +1,7 @@
 [user]
 	name = Shun Makino
 	email = shunmakino6211@gmail.com
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDXgfkQjgpGOKvZy5y8rRfRuKTs2VR8LXKsxKPKnkJhW
 
 [core]
 	editor = vim
@@ -11,6 +12,7 @@
 
 [commit]
     verbose = true
+	gpgsign = true
 
 [diff]
     algorithm = histogram
@@ -29,3 +31,7 @@
 [alias]
 	graph = log --graph --date-order --all --pretty=format:'%h %Cred%d %Cgreen%ad %Cblue%cn %Creset%s' --date=short
     uncommit = reset --soft HEAD^
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
