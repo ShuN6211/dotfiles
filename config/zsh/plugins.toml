@@ -27,11 +27,6 @@ apply = ["source"]
 github = "romkatv/powerlevel10k"
 apply = ["source"]
 
-[plugins.conda]
-local = "~/.config/zsh"
-use = ["conda.zsh"]
-apply = ["source"]
-
 [plugins.nvm]
 inline = """
 [ -s "$NVM_DIR/nvm.sh" ] && \
