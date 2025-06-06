@@ -1,5 +1,4 @@
 snippets:
-
   # general
   - name: mk
     keyword: mk
@@ -41,8 +40,8 @@ snippets:
 
   - name: emc
     keyword: emc
-    snippet: emacs {{}} -nw 
-  
+    snippet: emacs {{}} -nw
+
   # git
   - name: g
     keyword: g
@@ -55,7 +54,7 @@ snippets:
   # git add
   - name: git a
     keyword: a
-    snippet: add 
+    snippet: add
     context:
       lbuffer: ^git\s
 
@@ -70,6 +69,13 @@ snippets:
   - name: git c
     keyword: c
     snippet: commit
+    context:
+      lbuffer: ^git\s
+
+    # git un-commit(configured in git alias)
+  - name: git uc
+    keyword: uc
+    snippet: uncommit
     context:
       lbuffer: ^git\s
 
@@ -145,10 +151,9 @@ snippets:
 
   - name: git chb
     keyword: chb
-    snippet: checkout -b 
+    snippet: checkout -b
     context:
       lbuffer: ^git\s
-
 
   # git status
   - name: git s
@@ -192,7 +197,7 @@ snippets:
 
   - name: git plo
     keyword: pl
-    snippet: pull origin 
+    snippet: pull origin
     context:
       lbuffer: ^git\s
 
@@ -211,21 +216,20 @@ snippets:
     context:
       lbuffer: ^git\s
 
-
-   # Anaconda
+    # Anaconda
   - name: co
     keyword: co
     snippet: conda
 
   - name: conda c
     keyword: c
-    snippet: create -n 
+    snippet: create -n
     context:
       lbuffer: ^conda\s
 
   - name: conda a
     keyword: a
-    snippet: activate 
+    snippet: activate
     context:
       lbuffer: ^conda\s
 
@@ -234,7 +238,6 @@ snippets:
     snippet: remove -n {{}} --all
     context:
       lbuffer: ^conda\s
-
 
   - name: conda l
     keyword: l
@@ -254,7 +257,7 @@ snippets:
     context:
       lbuffer: ^conda\s
 
- # homebrew
+  # homebrew
   - name: b
     keyword: b
     snippet: brew
@@ -349,7 +352,7 @@ snippets:
     context:
       lbuffer: ^brew\s
 
-# --version
+  # --version
   - name: python -v
     keyword: -v
     snippet: -V
@@ -374,7 +377,6 @@ snippets:
   --nth: "3"
 
 completions:
-   
   # basic command
   - name: file
     patterns:
@@ -402,9 +404,3 @@ completions:
       <<: *default-options
       --preview: fzf-preview-directory {}
     callback: sed -E 's/ /\\ /g; s,/?$,/,'
-
-   
-  
-  
-  
-  
