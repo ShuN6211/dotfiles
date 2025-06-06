@@ -9,6 +9,7 @@ local.*
 ### Zsh cache ###
 *.zwc
 .zcomp*
+.zsh_sessions
 
 ### vim ###
 config/vim/pack/
