@@ -1,7 +1,7 @@
 [user]
 	name = Shun Makino
-	email = shunmakino6211@gmail.com
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDXgfkQjgpGOKvZy5y8rRfRuKTs2VR8LXKsxKPKnkJhW
+	email = shun.makino@mixi.co.jp
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEe5p4e4BYuCqCG9tZsFc5P92LXJCVf2/zB1aet/1UBA
 
 [core]
 	editor = vim
