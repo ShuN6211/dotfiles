@@ -35,7 +35,6 @@ alias la="ls -a"
 alias ll="ls -l"
 alias lla="ls -la"
 alias mkdir="mkdir -p"
-alias python="python3"
 
 ### completion styles ###
 zstyle ':completion:*:default' menu select=1
