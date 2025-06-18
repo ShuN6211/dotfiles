@@ -85,5 +85,6 @@ use = ["lazy.zsh"]
 inline = """
 autoload -Uz compinit
 compinit -d "$XDG_STATE_HOME/zcompdump"
+source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 """
 
