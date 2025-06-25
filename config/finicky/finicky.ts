@@ -8,10 +8,12 @@ const googleChromeOnlyHandler: BrowserHandler = {
     match: (url: URL) => {
         return (
             url.host === "meet.google.com" ||
+            url.host === "forms.gle" ||
             (url.host === "docs.google.com" &&
                 (url.pathname.startsWith("/spreadsheets") ||
                     url.pathname.startsWith("/document") ||
-                    url.pathname.startsWith("/presentation")))
+                    url.pathname.startsWith("/presentation") ||
+                    url.pathname.startsWith("/forms")))
         );
     },
     browser: "Google Chrome",
