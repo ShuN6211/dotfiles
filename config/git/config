@@ -4,7 +4,7 @@
 	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEe5p4e4BYuCqCG9tZsFc5P92LXJCVf2/zB1aet/1UBA
 
 [core]
-	editor = vim
+	editor = emacs
     pager = delta
 
 [init]
