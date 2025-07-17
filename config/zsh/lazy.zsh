@@ -48,3 +48,11 @@ export FZF_DEFAULT_COMMAND='fd --hidden --color=always'
 bindkey "^A" beginning-of-line # C-a
 bindkey "^E" end-of-line       # C-e
 bindkey "^K" kill-line         # C-k
+
+### one password ###
+source /Users/shun.makino/.config/op/plugins.sh
+### gcloud sdk ###
+source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+
+autoload -Uz compinit
+compinit -d "$XDG_STATE_HOME/zcompdump"
