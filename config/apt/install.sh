@@ -24,4 +24,6 @@ apt-get install -y \
     unzip \
     wget \
     zip \
-    zsh
+    zsh \
+    pkg-config \
+    libssl-dev
