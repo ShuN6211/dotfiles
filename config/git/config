@@ -1,39 +1,8 @@
-[user]
-	name = Shun Makino
-	email = shun.makino@mixi.co.jp
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEe5p4e4BYuCqCG9tZsFc5P92LXJCVf2/zB1aet/1UBA
-
-[core]
-	editor = emacs
-    pager = delta
-
-[init]
-	defaultBranch = main
-
-[commit]
-    verbose = true
-	gpgsign = true
-
-[diff]
-    algorithm = histogram
-
-[delta]
-    line-numbers = true
-    side-by-side = true
-    navigate = true
-
-[merge]
-	conflictStyle = diff3
-
-[ghq]
-	root = ~/workspace
-
-[alias]
-	graph = log --graph --date-order --all --pretty=format:'%h %Cred%d %Cgreen%ad %Cblue%cn %Creset%s' --date=short
-    uncommit = reset --soft HEAD^
-
-[gpg]
-	format = ssh
-
-[gpg "ssh"]
-	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[include]
+	path = conf.d/core.conf
+	path = conf.d/user.conf
+	path = conf.d/delta.conf
+	path = conf.d/ghq.conf
+	path = conf.d/alias.conf
+	path = conf.d/gpg.conf
+	path = conf.d/local.conf
