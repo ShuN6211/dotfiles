@@ -4,19 +4,19 @@ services:
   # GitHubから実際にinstall.shを実行
   github-install:
     build:
-      context: .
-      dockerfile: Dockerfile.ubuntu
+      context: ..
+      dockerfile: docker/Dockerfile.ubuntu
     container_name: dotfiles-github-test
     tty: true
     stdin_open: true
 
   # ローカルスクリプトをテスト
-  local-test:
+  dev-test:
     build:
-      context: .
-      dockerfile: Dockerfile.local
-    container_name: dotfiles-local-test
+      context: ..
+      dockerfile: docker/Dockerfile.dev
+    container_name: dotfiles-dev-test
     volumes:
-      - .:/home/testuser/dotfiles
+      - ..:/home/testuser/dotfiles
     tty: true
     stdin_open: true

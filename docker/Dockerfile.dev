@@ -1,0 +1,35 @@
+# ローカルスクリプト検証用（安全）
+FROM ubuntu:22.04
+
+# 基本ツール + sudo ユーザー作成
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    sudo \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# テスト用ユーザー作成
+RUN useradd -m -s /bin/bash testuser && \
+    echo 'testuser ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+USER testuser
+WORKDIR /home/testuser
+
+# ローカルのdotfilesをコピー
+COPY --chown=testuser:testuser . ./dotfiles/
+
+# 段階的実行でデバッグしやすく
+RUN echo "=== Testing dotfiles setup ===" && \
+    cd dotfiles && \
+    echo "Current directory: $(pwd)" && \
+    echo "Contents: " && ls -la && \
+    echo "=== Running setup.bash ===" && \
+    /bin/bash scripts/setup.bash || echo "Setup failed but continuing for debugging"
+
+# セットアップ成功時のみzshに変更
+RUN if command -v zsh >/dev/null; then \
+        sudo chsh -s $(which zsh) testuser; \
+    fi
+
+CMD ["zsh", "-l"]
