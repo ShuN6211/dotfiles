@@ -13,8 +13,6 @@ esac
 case "$OSTYPE" in
     darwin*)
         (( ${+commands[gdate]} )) && alias date='gdate'
-        (( ${+commands[gls]} )) && alias ls='gls'
-        (( ${+commands[gmkdir]} )) && alias mkdir='gmkdir'
         (( ${+commands[gcp]} )) && alias cp='gcp'
         (( ${+commands[gmv]} )) && alias mv='gmv'
         (( ${+commands[grm]} )) && alias rm='grm'
@@ -29,12 +27,31 @@ case "$OSTYPE" in
     ;;
 esac
 
-# alias
-alias ls="ls -F"
-alias la="ls -a"
-alias ll="ls -l"
-alias lla="ls -la"
-alias mkdir="mkdir -p"
+# alias - modern tools and GNU preferred
+if (( ${+commands[eza]} )); then
+    alias ls='eza --color=always --icons=always'
+    alias la='eza --color=always --icons=always -a'
+    alias ll='eza --color=always --icons=always -l'
+    alias lla='eza --color=always --icons=always -la'
+    alias tree='eza --color=always --icons=always --tree'
+elif (( ${+commands[gls]} )); then
+    alias ls='gls --color=auto -F'
+    alias la='gls --color=auto -aF'
+    alias ll='gls --color=auto -lF'
+    alias lla='gls --color=auto -laF'
+else
+    alias ls='ls -F'
+    alias la='ls -aF'
+    alias ll='ls -lF'
+    alias lla='ls -laF'
+fi
+
+# mkdir with -p option (GNU preferred)
+if (( ${+commands[gmkdir]} )); then
+    alias mkdir='gmkdir -p'
+else
+    alias mkdir='mkdir -p'
+fi
 
 ### completion styles ###
 zstyle ':completion:*:default' menu select=1
@@ -50,9 +67,17 @@ bindkey "^E" end-of-line       # C-e
 bindkey "^K" kill-line         # C-k
 
 ### one password ###
-source /Users/shun.makino/.config/op/plugins.sh
+[[ -f "$XDG_CONFIG_HOME/op/plugins.sh" ]] && source "$XDG_CONFIG_HOME/op/plugins.sh"
+
 ### gcloud sdk ###
-source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+# Try multiple possible completion paths
+for gcloud_completion in \
+    "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc" \
+    "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc" \
+    "$(brew --prefix)/Caskroom/gcloud-cli/latest/google-cloud-sdk/completion.zsh.inc"
+do
+    [[ -f "$gcloud_completion" ]] && source "$gcloud_completion" && break
+done
 
 autoload -Uz compinit
 compinit -d "$XDG_STATE_HOME/zcompdump"
