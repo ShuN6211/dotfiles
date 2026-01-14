@@ -3,6 +3,13 @@ set -x
 # shellcheck source=./scripts/common.bash
 source "$(dirname "$0")/common.bash"
 
+# Install dependencies for sheldon compilation on Ubuntu
+if command -v apt-get >/dev/null 2>&1; then
+    echo "Installing sheldon compilation dependencies..."
+    sudo apt-get update
+    sudo apt-get install -y pkg-config libssl-dev
+fi
+
 if type "$CARGO_HOME/bin/cargo" >/dev/null; then
     echo "Rust is already installed, skipping the procedure"
 else
