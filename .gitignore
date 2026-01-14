@@ -13,3 +13,6 @@ local.*
 
 ### vim ###
 config/vim/pack/
+
+### uv ###
+config/uv/
