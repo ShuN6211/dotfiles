@@ -19,17 +19,15 @@ WORKDIR /home/testuser
 # ローカルのdotfilesをコピー
 COPY --chown=testuser:testuser . ./dotfiles/
 
-# 段階的実行でデバッグしやすく
+# セットアップ実行
 RUN echo "=== Testing dotfiles setup ===" && \
     cd dotfiles && \
     echo "Current directory: $(pwd)" && \
     echo "Contents: " && ls -la && \
     echo "=== Running setup.bash ===" && \
-    /bin/bash scripts/setup.bash || echo "Setup failed but continuing for debugging"
+    /bin/bash scripts/setup.bash
 
-# セットアップ成功時のみzshに変更
-RUN if command -v zsh >/dev/null; then \
-        sudo chsh -s $(which zsh) testuser; \
-    fi
+# zshに変更
+RUN sudo chsh -s $(which zsh) testuser
 
 CMD ["zsh", "-l"]
