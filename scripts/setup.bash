@@ -7,6 +7,7 @@ source "$(dirname "$0")/common.bash"
 /bin/bash "$CUR_DIR/setup-homebrew.bash"
 /bin/bash "$CUR_DIR/setup-links.bash"
 /bin/bash "$CUR_DIR/setup-deno.bash"
+/bin/bash "$CUR_DIR/setup-uv.bash"
 /bin/bash "$CUR_DIR/setup-sheldon.bash"
 /bin/bash "$CUR_DIR/setup-nvm.bash"
 
