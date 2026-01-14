@@ -31,7 +31,9 @@
 [alias]
 	graph = log --graph --date-order --all --pretty=format:'%h %Cred%d %Cgreen%ad %Cblue%cn %Creset%s' --date=short
     uncommit = reset --soft HEAD^
+
 [gpg]
 	format = ssh
+
 [gpg "ssh"]
 	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
