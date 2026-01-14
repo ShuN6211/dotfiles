@@ -80,6 +80,3 @@ bindkey '^x' zeno-insert-snippet
 [plugins.lazy]
 local = "~/.config/zsh"
 use = ["lazy.zsh"]
-
-
-

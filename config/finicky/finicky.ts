@@ -3,7 +3,7 @@ import type {
     FinickyConfig,
 } from "/Applications/Finicky.app/Contents/Resources/finicky.d.ts";
 
-// Google Meet / Sheets / Docs / Slides is opend in Google Chrome 
+// Google Meet / Sheets / Docs / Slides is opend in Google Chrome
 const googleChromeOnlyHandler: BrowserHandler = {
     match: (url: URL) => {
         return (

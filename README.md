@@ -6,7 +6,7 @@
 
 - My dotfiles: config files and build scripts.
 - I follow the design specified in [XDG_Base_Directory](https://wiki.archlinux.org/title/XDG_Base_Directory).
-  
+
 ## Requires
 
 - [sheldon](https://github.com/rossmacarthur/sheldon)
