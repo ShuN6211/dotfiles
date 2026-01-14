@@ -1,0 +1,16 @@
+# Ubuntu環境でのinstall.sh / setup.bashテスト用
+FROM ubuntu:22.04
+
+# curl（GitHubダウンロード用）+ sudo インストール + テスト用ユーザー作成
+RUN apt-get update && apt-get install -y curl sudo && rm -rf /var/lib/apt/lists/* && \
+    useradd -m -s /bin/bash testuser && \
+    echo 'testuser ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+USER testuser
+WORKDIR /home/testuser
+
+# 実際のinstall.shを使ってテスト（GitHub経由）
+# COPY する代わりに実際のスクリプトをテスト
+RUN curl -sL https://raw.githubusercontent.com/ShuN6211/dotfiles/main/install.sh | sh
+
+CMD ["zsh", "-l"]
