@@ -16,3 +16,6 @@ config/vim/pack/
 
 ### uv ###
 config/uv/
+
+### git ###
+config/git/conf.d/local.conf
