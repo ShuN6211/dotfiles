@@ -23,9 +23,8 @@ defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file 
 github = "romkatv/zsh-defer"
 apply = ["source"]
 
-[plugins.powerlevel10k]
-github = "romkatv/powerlevel10k"
-apply = ["source"]
+[plugins.starship]
+inline = "eval \"$(starship init zsh)\""
 
 [plugins.nvm]
 inline = """
