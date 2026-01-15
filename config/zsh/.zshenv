@@ -23,3 +23,6 @@ export CARGO_HOME="$XDG_DATA_HOME/cargo"
 
 ### sheldon ###
 export SHELDON_CONFIG_DIR="$ZDOTDIR"
+
+### starship ###
+export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/starship.toml"

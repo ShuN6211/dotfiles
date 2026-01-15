@@ -1,6 +1,3 @@
-### iterm ###
-config/iterm2/AppSupport
-
 ### Local settings ###
 *.local
 local.*
