@@ -68,14 +68,31 @@ export ZENO_GIT_CAT="bat --color=always"
 export ZENO_GIT_TREE="exa --tree"
 """
 hooks.post = """
+# ------------------------------------------------------------------------------
+# Workaround for Ghostty / CSI u (Kitty Keyboard Protocol)
+# ------------------------------------------------------------------------------
+# Ghostty sends distinct escape sequences for Ctrl+i and Ctrl+m instead of
+# traditional ASCII control codes (^I and ^M). The following bindings map
+# these sequences to ensure zeno.zsh functions work correctly.
+
+# Space
 bindkey ' '  zeno-auto-snippet
+
+# Enter / Ctrl+m
 bindkey '^m' zeno-auto-snippet-and-accept-line
+bindkey '^[[109;5u' zeno-auto-snippet-and-accept-line # CSI u: Ctrl+m
+bindkey '^[[13;u'   zeno-auto-snippet-and-accept-line # CSI u: Enter
+
+# Tab / Ctrl+i
 bindkey '^i' zeno-completion
+bindkey '^[[105;5u' zeno-completion                   # CSI u: Ctrl+i
+bindkey '^[[9;u'    zeno-completion                   # CSI u: Tab
+
+# Others
 bindkey '^g' zeno-ghq-cd
 bindkey '^r' zeno-history-selection
 bindkey '^x' zeno-insert-snippet
 """
-
 [plugins.lazy]
 local = "~/.config/zsh"
 use = ["lazy.zsh"]
