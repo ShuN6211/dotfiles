@@ -1,7 +1,37 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+format = """
+$os\
+$directory\
+$git_branch\
+$git_status\
+$python\
+$c\
+$golang\
+$nodejs\
+$rust\
+$aws\
+$gcloud\
+$kubernetes\
+$line_break\
+$character"""
+
+[os]
+disabled = false
+
+[gcloud]
+symbol = " "
+# detect_env_vars = ["GOOGLE_CLOUD_PROJECT", "CLOUDSDK_CORE_PROJECT"]
+format = '[$symbol$project]($style) '
+style = "bold blue"
+
 [aws]
-symbol = " "
+symbol = "  "
+format = '[$symbol($profile )(\($region\))]($style) '
+style = "bold yellow"
+
+[kubernetes]
+symbol = "󱃾 "
 
 [buf]
 symbol = " "
@@ -50,9 +80,6 @@ symbol = " "
 
 [fossil_branch]
 symbol = " "
-
-[gcloud]
-symbol = " "
 
 [git_branch]
 symbol = " "
