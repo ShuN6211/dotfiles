@@ -1,2 +1,5 @@
 font-family = JetBrains Mono
 font-size = 14
+
+# Emacs support: treat Option key as Meta/Alt
+macos-option-as-alt = true
