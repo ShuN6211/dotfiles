@@ -57,10 +57,6 @@
         name = "zsh-defer";
         src = pkgs.zsh-defer.src;
       }
-      {
-        name = "zeno";
-        src = zeno-zsh;
-      }
     ];
 
     initContent = ''
@@ -127,7 +123,7 @@
       export ZENO_GIT_TREE="eza --tree"
 
       _zeno_setup() {
-          source "${config.xdg.configHome}/zsh/plugins/zeno/zeno.plugin.zsh"
+          source "${config.xdg.configHome}/zsh/plugins/zeno/zeno.zsh"
 
           ZSH_AUTOSUGGEST_CLEAR_WIDGETS=(zeno-auto-snippet-and-accept-line $ZSH_AUTOSUGGEST_CLEAR_WIDGETS)
 

@@ -68,10 +68,5 @@ bindkey "^K" kill-line         # C-k
 [[ -f "$XDG_CONFIG_HOME/op/plugins.sh" ]] && source "$XDG_CONFIG_HOME/op/plugins.sh"
 
 ### gcloud sdk ###
-if command -v brew &>/dev/null; then
-    local gcloud_completion="$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
-    [[ -f "$gcloud_completion" ]] && source "$gcloud_completion"
-fi
-
-autoload -Uz compinit
-compinit -d "$XDG_STATE_HOME/zcompdump"
+local gcloud_completion="/opt/homebrew/share/google-cloud-sdk/completion.zsh.inc"
+[[ -f "$gcloud_completion" ]] && source "$gcloud_completion"

@@ -1,4 +1,4 @@
-{ pkgs, lib, config, username, dotfilesDir, ... }:
+{ pkgs, lib, config, username, dotfilesDir, zeno-zsh, ... }:
 
 let
   isDarwin = pkgs.stdenv.isDarwin;
@@ -58,6 +58,7 @@ in
 
     # uv
     "uv/.python-version".source = symlink "${dotfilesDir}/config/uv/.python-version";
+
   } // lib.optionalAttrs isDarwin {
     # Finicky (macOS only)
     "finicky/finicky.ts".source = symlink "${dotfilesDir}/config/finicky/finicky.ts";
@@ -75,5 +76,12 @@ in
     install -d -m 700 "$HOME/.ssh"
     install -d -m 700 "$HOME/.gnupg"
     mkdir -p "$HOME/.local/share/vim"
+  '';
+
+  # Copy zeno to writable location (deno needs to create node_modules)
+  home.activation.setupZeno = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    rm -rf "${config.xdg.configHome}/zsh/plugins/zeno"
+    cp -r "${zeno-zsh}" "${config.xdg.configHome}/zsh/plugins/zeno"
+    chmod -R u+w "${config.xdg.configHome}/zsh/plugins/zeno"
   '';
 }
