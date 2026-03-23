@@ -1,31 +1,30 @@
 #!/bin/sh
+set -e
+
 INSTALL_DIR="${INSTALL_DIR:-$HOME/workspace/dotfiles}"
 
-# Install necessary tools
-if command -v apt-get >/dev/null 2>&1; then
-    # Ubuntu/Debian
-    sudo apt-get update
-    sudo apt-get install -y curl git
-elif command -v yum >/dev/null 2>&1; then
-    # RHEL/CentOS
-    sudo yum install -y curl git
-elif command -v dnf >/dev/null 2>&1; then
-    # Fedora
-    sudo dnf install -y curl git
-elif command -v pacman >/dev/null 2>&1; then
-    # Arch
-    sudo pacman -S --noconfirm curl git
-elif command -v apk >/dev/null 2>&1; then
-    # Alpine
-    sudo apk add curl git
-elif command -v brew >/dev/null 2>&1; then
-    # macOS
-    brew install curl git
-else
-    echo "Unsupported package manager. Please install curl and git manually."
-    exit 1
+# Install Nix (Determinate Systems installer)
+if ! command -v nix >/dev/null 2>&1; then
+    echo "Installing Nix..."
+    curl --proto '=https' --tlsv1.2 -sSf -L \
+        https://install.determinate.systems/nix | sh -s -- install
+    # Source nix environment
+    if [ -f "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
+        . "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
+    fi
 fi
 
+# Install Homebrew on macOS (needed for casks)
+case "$(uname)" in
+    Darwin)
+        if ! command -v brew >/dev/null 2>&1; then
+            echo "Installing Homebrew..."
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        fi
+        ;;
+esac
+
+# Clone dotfiles
 if [ -d "$INSTALL_DIR" ]; then
     echo "Updating dotfiles..."
     git -C "$INSTALL_DIR" pull
@@ -34,4 +33,22 @@ else
     git clone https://github.com/ShuN6211/dotfiles.git "$INSTALL_DIR"
 fi
 
-/bin/bash "$INSTALL_DIR/scripts/setup.bash"
+cd "$INSTALL_DIR"
+
+# Build and activate
+case "$(uname)" in
+    Darwin)
+        echo "Activating nix-darwin configuration..."
+        nix run nix-darwin -- switch --flake .#shun-macbook
+        ;;
+    Linux)
+        echo "Activating home-manager configuration..."
+        nix run home-manager -- switch --flake .#shun-linux
+        ;;
+    *)
+        echo "Unsupported platform: $(uname)"
+        exit 1
+        ;;
+esac
+
+echo "Done! Please restart your shell."

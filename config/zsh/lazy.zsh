@@ -1,13 +1,11 @@
 # recommended scripts for homebrew
-case "$OSTYPE" in
-darwin*)
+if [[ "$OSTYPE" == darwin* ]] && [[ -d "/opt/homebrew" ]]; then
     export HOMEBREW_PREFIX="/opt/homebrew"
     export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
     export HOMEBREW_REPOSITORY="/opt/homebrew"
     export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:"
     export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}"
-    ;;
-esac
+fi
 
 ### replace BSD to GNU ###
 case "$OSTYPE" in
@@ -70,14 +68,10 @@ bindkey "^K" kill-line         # C-k
 [[ -f "$XDG_CONFIG_HOME/op/plugins.sh" ]] && source "$XDG_CONFIG_HOME/op/plugins.sh"
 
 ### gcloud sdk ###
-# Try multiple possible completion paths
-for gcloud_completion in \
-    "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc" \
-    "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc" \
-    "$(brew --prefix)/Caskroom/gcloud-cli/latest/google-cloud-sdk/completion.zsh.inc"
-do
-    [[ -f "$gcloud_completion" ]] && source "$gcloud_completion" && break
-done
+if command -v brew &>/dev/null; then
+    local gcloud_completion="$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
+    [[ -f "$gcloud_completion" ]] && source "$gcloud_completion"
+fi
 
 autoload -Uz compinit
 compinit -d "$XDG_STATE_HOME/zcompdump"

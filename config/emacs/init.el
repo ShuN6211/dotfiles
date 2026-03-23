@@ -103,15 +103,8 @@
 (leaf files
   :doc "file input and output commands for Emacs"
   :tag "builtin"
-  :custom `((auto-save-timeout . 15)
-            (auto-save-interval . 60)
-            (auto-save-file-name-transforms . '((".*" ,(locate-user-emacs-file "backup/") t)))
-            (backup-directory-alist . '((".*" . ,(locate-user-emacs-file "backup"))
-                                        (,tramp-file-name-regexp . nil)))
-            (version-control . t)
-            (delete-old-versions . t)))
-
-(setq make-backup-files nil)
+  :custom ((make-backup-files . nil)
+           (auto-save-default . nil)))
 
 ;; start-up
 (leaf startup
