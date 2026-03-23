@@ -69,6 +69,7 @@
       typeset -gU FPATH fpath
 
       path=(
+          "/etc/profiles/per-user/$USER/bin"(N-/)
           "$HOME/.nix-profile/bin"(N-/)
           '/run/current-system/sw/bin'(N-/)
           '/nix/var/nix/profiles/default/bin'(N-/)
@@ -119,31 +120,36 @@
       bindkey "^[[A" history-substring-search-up
       bindkey "^[[B" history-substring-search-down
 
-      ### zeno ###
+      ### zeno (deferred with zsh-defer) ###
       export ZENO_HOME="$XDG_CONFIG_HOME/zeno"
       export ZENO_ENABLE_SOCK=1
       export ZENO_GIT_CAT="bat --color=always"
       export ZENO_GIT_TREE="eza --tree"
 
-      ZSH_AUTOSUGGEST_CLEAR_WIDGETS=(zeno-auto-snippet-and-accept-line $ZSH_AUTOSUGGEST_CLEAR_WIDGETS)
+      _zeno_setup() {
+          source "${config.xdg.configHome}/zsh/plugins/zeno/zeno.plugin.zsh"
 
-      # Space
-      bindkey ' '  zeno-auto-snippet
+          ZSH_AUTOSUGGEST_CLEAR_WIDGETS=(zeno-auto-snippet-and-accept-line $ZSH_AUTOSUGGEST_CLEAR_WIDGETS)
 
-      # Enter / Ctrl+m
-      bindkey '^m' zeno-auto-snippet-and-accept-line
-      bindkey '^[[109;5u' zeno-auto-snippet-and-accept-line  # CSI u: Ctrl+m
-      bindkey '^[[13;u'   zeno-auto-snippet-and-accept-line  # CSI u: Enter
+          # Space
+          bindkey ' '  zeno-auto-snippet
 
-      # Tab / Ctrl+i
-      bindkey '^i' zeno-completion
-      bindkey '^[[105;5u' zeno-completion  # CSI u: Ctrl+i
-      bindkey '^[[9;u'    zeno-completion  # CSI u: Tab
+          # Enter / Ctrl+m
+          bindkey '^m' zeno-auto-snippet-and-accept-line
+          bindkey '^[[109;5u' zeno-auto-snippet-and-accept-line  # CSI u: Ctrl+m
+          bindkey '^[[13;u'   zeno-auto-snippet-and-accept-line  # CSI u: Enter
 
-      # Others
-      bindkey '^g' zeno-ghq-cd
-      bindkey '^r' zeno-history-selection
-      bindkey '^x' zeno-insert-snippet
+          # Tab / Ctrl+i
+          bindkey '^i' zeno-completion
+          bindkey '^[[105;5u' zeno-completion  # CSI u: Ctrl+i
+          bindkey '^[[9;u'    zeno-completion  # CSI u: Tab
+
+          # Others
+          bindkey '^g' zeno-ghq-cd
+          bindkey '^r' zeno-history-selection
+          bindkey '^x' zeno-insert-snippet
+      }
+      zsh-defer _zeno_setup
 
       ### starship ###
       eval "$(starship init zsh)"
