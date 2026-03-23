@@ -13,12 +13,26 @@
       cleanup = "zap";
     };
     casks = [
+      "1password-cli"
+      "codex"
+      "docker-desktop"
+      "drawio"
+      "finicky"
+      "firefox"
+      "gcloud-cli"
+      "ghostty"
       "google-chrome"
       "google-japanese-ime"
+      "iterm2"
+      "notion"
+      "obsidian"
+      "raycast"
+      "stats"
       "visual-studio-code"
-      "ghostty"
-      "font-jetbrains-mono-nerd-font"
+      "zotero"
+      # fonts
       "font-fira-code-nerd-font"
+      "font-jetbrains-mono-nerd-font"
     ];
     brews = [ ];
   };
