@@ -1,33 +1,87 @@
 # dotfiles
 
-![macOS](https://github.com/ShuN6211/dotfiles/workflows/macOS/badge.svg)
-![ubuntu](https://github.com/ShuN6211/dotfiles/workflows/ubuntu/badge.svg)
-![Lint](https://github.com/ShuN6211/dotfiles/workflows/Lint/badge.svg)
+![CI](https://github.com/ShuN6211/dotfiles/workflows/CI/badge.svg)
 
-- My dotfiles: config files and build scripts.
-- I follow the design specified in [XDG_Base_Directory](https://wiki.archlinux.org/title/XDG_Base_Directory).
+Declarative dotfiles managed by [Nix](https://nixos.org/) flakes with [nix-darwin](https://github.com/LnL7/nix-darwin) + [home-manager](https://github.com/nix-community/home-manager).
 
-## Requires
+## Structure
 
-- [sheldon](https://github.com/rossmacarthur/sheldon)
-  - Shell plugin manager.
-  - Install sheldon using one of the install options you prefer.
-- [Deno](https://deno.com/)
-  - [zeno.zsh](https://github.com/yuki-yano/zeno.zsh) uses deno.
-  - Install deno using one of the install options you prefer.
+```
+flake.nix                  # Entry point
+nix/
+  hosts/darwin.nix         # macOS system config + Homebrew casks
+  home/
+    default.nix            # Symlinks for config files
+    shell.nix              # Zsh plugins and settings
+    packages.nix           # CLI packages
+    languages.nix          # Language toolchains
+config/                    # Raw config files (git, starship, ghostty, etc.)
+```
 
 ## Install
 
-- Install via curl.
-
-```shell
+```bash
 curl -sL https://raw.githubusercontent.com/ShuN6211/dotfiles/refs/heads/main/install.sh | sh
 ```
 
-- Install on local.
+Or manually:
 
-```shell
-git clone git@github.com:ShuN6211/dotfiles.git
-cd dotfiles
-/bin/bash ./scripts/setup.bash
+```bash
+# Install Nix
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+
+# Clone and apply
+git clone git@github.com:ShuN6211/dotfiles.git ~/workspace/dotfiles
+cd ~/workspace/dotfiles
+sudo darwin-rebuild switch --flake .#shun-macbook
+```
+
+## Usage
+
+### Adding packages
+
+| Type | File | Example |
+|---|---|---|
+| CLI tool | `nix/home/packages.nix` | Add `pkgs.ripgrep` |
+| GUI app | `nix/hosts/darwin.nix` | Add `"slack"` to casks |
+| Language tool | `nix/home/languages.nix` | Add `pkgs.go` |
+
+After editing, apply with:
+
+```bash
+sudo darwin-rebuild switch --flake .#shun-macbook
+```
+
+### Try a package temporarily
+
+```bash
+nix shell nixpkgs#jq  # Available in this shell only, no config change needed
+```
+
+You can also install via `brew` first and add to Nix config later. Note that packages not listed in the config will be removed on the next rebuild.
+
+```bash
+# CLI tool: install now, add to packages.nix later
+brew install jq
+
+# GUI app: install now, add to darwin.nix casks later
+brew install --cask slack
+```
+
+### Searching packages
+
+```bash
+nix search nixpkgs <keyword>
+```
+
+Or browse [search.nixos.org](https://search.nixos.org/packages).
+
+### Editing config files
+
+Config files in `config/` are symlinked via `mkOutOfStoreSymlink`, so edits take effect immediately without rebuilding.
+
+## Linux
+
+```bash
+nix run home-manager -- switch --flake .#shun-linux
 ```

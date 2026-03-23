@@ -1,0 +1,27 @@
+name: CI
+
+on: push
+
+permissions:
+  contents: read
+
+jobs:
+  build-macos:
+    name: macOS
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: Build darwin configuration
+        run: nix build .#darwinConfigurations.shun-macbook.system --no-link
+
+  build-linux:
+    name: Linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: Build home-manager configuration
+        run: nix build .#homeConfigurations.shun-linux.activationPackage --no-link

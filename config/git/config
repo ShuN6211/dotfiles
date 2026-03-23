@@ -1,6 +1,5 @@
 [include]
 	path = conf.d/core.conf
-	path = conf.d/user.conf
 	path = conf.d/delta.conf
 	path = conf.d/ghq.conf
 	path = conf.d/alias.conf
