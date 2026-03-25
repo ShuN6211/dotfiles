@@ -24,12 +24,20 @@
     let
       username = "shun.makino";
       dotfilesDir = "/Users/${username}/workspace/dotfiles";
+
+      # Configure nixpkgs with allowUnfree for all systems
+      pkgsConfig = {
+        config = {
+          allowUnfree = true;
+        };
+      };
     in
     {
       darwinConfigurations."shun-macbook" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = { inherit username dotfilesDir zeno-zsh; };
         modules = [
+          { nixpkgs = pkgsConfig; }
           ./nix/hosts/darwin.nix
           home-manager.darwinModules.home-manager
           {
@@ -42,7 +50,10 @@
       };
 
       homeConfigurations."shun-linux" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        pkgs = import nixpkgs {
+          system = "x86_64-linux";
+          config.allowUnfree = true;
+        };
         extraSpecialArgs = {
           inherit zeno-zsh;
           username = "shun";

@@ -41,6 +41,10 @@ in
     cmake
     shellcheck
     trash-cli
+
+    # Cloud & Infrastructure
+    awscli2
+    terraform
   ] ++ lib.optionals isDarwin [
     coreutils
     findutils
