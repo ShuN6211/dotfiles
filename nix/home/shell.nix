@@ -45,8 +45,6 @@
       highlight = "fg=244";
     };
 
-    syntaxHighlighting.enable = true;
-
     completionInit = ''
       autoload -Uz compinit
       compinit -d "$XDG_STATE_HOME/zcompdump"
@@ -56,6 +54,10 @@
       {
         name = "zsh-defer";
         src = pkgs.zsh-defer.src;
+      }
+      {
+        name = "fast-syntax-highlighting";
+        src = "${pkgs.zsh-fast-syntax-highlighting}/share/zsh/plugins/fast-syntax-highlighting";
       }
     ];
 
