@@ -23,7 +23,7 @@
   outputs = { self, nixpkgs, nix-darwin, home-manager, zeno-zsh, ... }:
     let
       username = "shun.makino";
-      dotfilesDir = "/Users/${username}/workspace/dotfiles";
+      dotfilesDir = "/Users/${username}/ghq/github.com/ShuN6211/dotfiles";
 
       # Configure nixpkgs with allowUnfree for all systems
       pkgsConfig = {
@@ -57,7 +57,7 @@
         extraSpecialArgs = {
           inherit zeno-zsh;
           username = "shun";
-          dotfilesDir = "/home/shun/workspace/dotfiles";
+          dotfilesDir = "/home/shun/ghq/github.com/ShuN6211/dotfiles";
         };
         modules = [ ./nix/home/default.nix ];
       };

@@ -31,8 +31,8 @@ Or manually:
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 
 # Clone and apply
-git clone git@github.com:ShuN6211/dotfiles.git ~/workspace/dotfiles
-cd ~/workspace/dotfiles
+nix shell nixpkgs#ghq -c ghq get github.com/ShuN6211/dotfiles
+cd "$(nix shell nixpkgs#ghq -c ghq root)/github.com/ShuN6211/dotfiles"
 sudo darwin-rebuild switch --flake .#shun-macbook
 ```
 

@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-INSTALL_DIR="${INSTALL_DIR:-$HOME/workspace/dotfiles}"
+REPO="github.com/ShuN6211/dotfiles"
 
 # Install Nix (Determinate Systems installer)
 if ! command -v nix >/dev/null 2>&1; then
@@ -24,14 +24,19 @@ case "$(uname)" in
         ;;
 esac
 
-# Clone dotfiles
-if [ -d "$INSTALL_DIR" ]; then
-    echo "Updating dotfiles..."
-    git -C "$INSTALL_DIR" pull
-else
-    echo "Installing dotfiles..."
-    git clone https://github.com/ShuN6211/dotfiles.git "$INSTALL_DIR"
-fi
+run_ghq() {
+    if command -v ghq >/dev/null 2>&1; then
+        ghq "$@"
+    else
+        nix shell nixpkgs#ghq -c ghq "$@"
+    fi
+}
+
+GHQ_ROOT="$(run_ghq root)"
+INSTALL_DIR="$GHQ_ROOT/$REPO"
+
+echo "Fetching dotfiles with ghq..."
+run_ghq get -u "$REPO"
 
 cd "$INSTALL_DIR"
 
