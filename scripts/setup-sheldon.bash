@@ -6,18 +6,6 @@ source "$(dirname "$0")/common.bash"
 # On macOS, sheldon is installed via Homebrew (Brewfile)
 [ "$(uname)" = "Darwin" ] && exit
 
-# Install dependencies for sheldon compilation on Ubuntu
-if command -v apt-get >/dev/null 2>&1; then
-    echo "Installing sheldon compilation dependencies..."
-    sudo apt-get update
-    sudo apt-get install -y pkg-config libssl-dev
-fi
-
-if type "$CARGO_HOME/bin/cargo" >/dev/null; then
-    echo "Rust is already installed, skipping the procedure"
-else
-    echo "Installing Rust..."
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | /bin/sh -s -- -y --no-modify-path
-fi
-
-"$CARGO_HOME/bin/cargo" install sheldon git-delta
+echo "Installing sheldon..."
+curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
+    | bash -s -- --repo rossmacarthur/sheldon --to ~/.local/bin
