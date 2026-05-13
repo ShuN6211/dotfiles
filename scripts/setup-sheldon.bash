@@ -3,6 +3,9 @@ set -x
 # shellcheck source=./scripts/common.bash
 source "$(dirname "$0")/common.bash"
 
+# On macOS, sheldon is installed via Homebrew (Brewfile)
+[ "$(uname)" = "Darwin" ] && exit
+
 # Install dependencies for sheldon compilation on Ubuntu
 if command -v apt-get >/dev/null 2>&1; then
     echo "Installing sheldon compilation dependencies..."
