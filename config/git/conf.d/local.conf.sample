@@ -1,4 +1,4 @@
 [user]
 	name = foo
 	email = hoge@example.com
-    signingkey = ""
+    signingkey = "signing-key"
