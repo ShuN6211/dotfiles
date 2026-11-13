@@ -1,5 +1,5 @@
 #!/bin/sh
-INSTALL_DIR="${INSTALL_DIR:-$HOME/workspace/dotfiles}"
+INSTALL_DIR="${INSTALL_DIR:-$HOME/ghq/github.com/ShuN6211/dotfiles}"
 
 # Install necessary tools
 if command -v apt-get >/dev/null 2>&1; then
