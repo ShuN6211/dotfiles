@@ -70,17 +70,20 @@ bindkey "^K" kill-line         # C-k
 [[ -f "$XDG_CONFIG_HOME/op/plugins.sh" ]] && source "$XDG_CONFIG_HOME/op/plugins.sh"
 
 ### mise ###
-eval "$(mise activate zsh)"
+(( ${+commands[mise]} )) && eval "$(mise activate zsh)"
 
 ### gcloud sdk ###
-# Try multiple possible completion paths
-for gcloud_completion in \
-    "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc" \
-    "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc" \
-    "$(brew --prefix)/Caskroom/gcloud-cli/latest/google-cloud-sdk/completion.zsh.inc"
-do
-    [[ -f "$gcloud_completion" ]] && source "$gcloud_completion" && break
-done
+# Try multiple possible completion paths (Homebrew only)
+if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
+    for gcloud_completion in \
+        "$HOMEBREW_PREFIX/share/google-cloud-sdk/completion.zsh.inc" \
+        "$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc" \
+        "$HOMEBREW_PREFIX/Caskroom/gcloud-cli/latest/google-cloud-sdk/completion.zsh.inc"
+    do
+        [[ -f "$gcloud_completion" ]] && source "$gcloud_completion" && break
+    done
+    unset gcloud_completion
+fi
 
 autoload -Uz compinit
 compinit -d "$XDG_STATE_HOME/zcompdump"

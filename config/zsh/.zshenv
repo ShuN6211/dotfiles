@@ -7,16 +7,6 @@ export XDG_CACHE_HOME=$HOME/.cache
 # ZDOTDIR
 export ZDOTDIR=$XDG_CONFIG_HOME/zsh
 
-### Deno ###
-export DENO_INSTALL="$XDG_DATA_HOME/deno"
-export DENO_INSTALL_ROOT="$DENO_INSTALL"
-
-### nvm ###
-export NVM_DIR="$XDG_DATA_HOME/nvm"
-
-### volta ###
-export VOLTA_HOME="$XDG_DATA_HOME/.volta"
-
 # Rust
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
@@ -26,3 +16,9 @@ export SHELDON_CONFIG_DIR="$ZDOTDIR"
 
 ### starship ###
 export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/starship.toml"
+
+### mise ###
+# Put mise shims on PATH so non-interactive shells (scripts, editors, AI agents)
+# can find mise-managed tools. Interactive shells also run `mise activate` in lazy.zsh.
+typeset -gU path
+path=("$XDG_DATA_HOME/mise/shims"(N-/) "$path[@]")
