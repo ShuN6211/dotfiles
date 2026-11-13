@@ -13,3 +13,8 @@ jobs:
     steps:
       - name: Setup
         run: curl -sL https://raw.githubusercontent.com/ShuN6211/dotfiles/refs/heads/main/install.sh | sh
+
+      - name: Check shell startup
+        run: |
+          zsh -i -c exit
+          zsh -c 'command -v node uv deno terraform'

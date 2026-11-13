@@ -6,13 +6,18 @@ on:
       - main
 
 jobs:
-  localMacOS:
+  localUbuntu:
     name: LocalUbuntu
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Run setup
         run: /bin/bash ./scripts/setup.bash
+
+      - name: Check shell startup
+        run: |
+          zsh -i -c exit
+          zsh -c 'command -v node uv deno terraform'
