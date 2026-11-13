@@ -16,3 +16,9 @@ config/uv/
 
 ### git ###
 config/git/conf.d/local.conf
+
+### Local state ###
+.idea/
+config/emacs/tramp
+config/homebrew/trust.json
+config/homebrew/trust.json.lock
