@@ -69,6 +69,9 @@ bindkey "^K" kill-line         # C-k
 ### one password ###
 [[ -f "$XDG_CONFIG_HOME/op/plugins.sh" ]] && source "$XDG_CONFIG_HOME/op/plugins.sh"
 
+### mise ###
+eval "$(mise activate zsh)"
+
 ### gcloud sdk ###
 # Try multiple possible completion paths
 for gcloud_completion in \
