@@ -12,7 +12,8 @@ local.*
 config/vim/pack/
 
 ### uv ###
-config/uv/
+config/uv/*
+!config/uv/.python-version
 
 ### git ###
 config/git/conf.d/local.conf
