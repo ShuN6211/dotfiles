@@ -1,247 +1,228 @@
-(eval-and-compile
-  (customize-set-variable
-   'package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                       ("melpa" . "https://melpa.org/packages/")))
-  (package-initialize)
-  (use-package leaf :ensure t)
+;;; init.el --- Emacs configuration -*- lexical-binding: t; -*-
 
-  (leaf leaf-keywords
-    :ensure t
-    :init
-    (leaf blackout :ensure t)
-    :config
-    (leaf-keywords-init)))
+;;; Commentary:
+;; Written for Emacs 31 running in a terminal (Homebrew `emacs').
+;; Uses the built-in use-package.  Third-party packages come from GNU ELPA
+;; and MELPA and are installed on first start.
 
-(leaf leaf-convert
-  :doc "Convert many format to leaf format"
-  :ensure t)
+;;; Code:
 
-(leaf cus-edit
-  :doc "tools for customizing Emacs and Lisp packages"
-  :custom `((custom-file . ,(locate-user-emacs-file "custom.el"))))
+;;;; Packages
 
-(leaf cus-start
-  :doc "define customization properties of builtins"
-  :preface
-  (defun c/redraw-frame nil
-    (interactive)
-    (redraw-frame))
+(require 'package)
+(setopt package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                           ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+                           ("melpa" . "https://melpa.org/packages/")))
+(require 'use-package)
 
-  :bind (("M-ESC ESC" . c/redraw-frame))
-  :custom '((user-full-name . "Shun Makino")
-            (user-login-name . "ShuN")
-            (create-lockfiles . nil)
-            (tab-width . 4)
-            (debug-on-error . t)
-            (init-file-debug . t)
-            (frame-resize-pixelwise . t)
-            (enable-recursive-minibuffers . t)
-            (history-length . 1000)
-            (transient-mark-mode . t)
-            (history-delete-duplicates . t)
-            (scroll-preserve-screen-position . t)
-            (scroll-conservatively . 100)
-            (mouse-wheel-scroll-amount . '(1 ((control) . 5)))
-            (select-enable-clipboard . t)
-            (case-fold-search . t)
-            (ring-bell-function . 'ignore)
-            (text-quoting-style . 'straight)
-            (mouse-wheel-progressive-speed . nil)
-            (truncate-lines . t)
-            (inhibit-startup-message . t)
-            (use-dialog-box . nil)
-            (use-file-dialog . nil)
-            (menu-bar-mode . t)
-            (tool-bar-mode . nil)
-            (scroll-bar-mode . nil)
-            (global-display-line-numbers-mode . t )
-            (indent-tabs-mode . nil))
+;;;; Basics
+
+(use-package emacs
+  :custom
+  (user-full-name "Shun Makino")
+  (create-lockfiles nil)
+  (tab-width 4)
+  (indent-tabs-mode nil)
+  (truncate-lines t)
+  (use-short-answers t)
+  (enable-recursive-minibuffers t)
+  (history-length 1000)
+  (history-delete-duplicates t)
+  (case-fold-search t)
+  (ring-bell-function #'ignore)
+  (text-quoting-style 'straight)
+  (use-dialog-box nil)
+  (use-file-dialog nil)
+  (scroll-preserve-screen-position t)
+  (scroll-conservatively 100)
+  (mouse-wheel-scroll-amount '(1 ((control) . 5)))
+  (mouse-wheel-progressive-speed nil)
+  (kill-ring-max 100)
+  (kill-read-only-ok t)
+  (kill-whole-line t)
+  (eval-expression-print-length nil)
+  (eval-expression-print-level nil)
+  :bind
+  (("M-ESC ESC" . redraw-frame))
   :config
-  (defalias 'yes-or-no-p 'y-or-n-p)
-  (keyboard-translate ?\C-h ?\C-?))
+  ;; C-h deletes backward, as in the shell.  Help is still on F1.
+  (define-key key-translation-map (kbd "C-h") (kbd "DEL"))
+  (menu-bar-mode 1)
+  (global-display-line-numbers-mode 1)
+  (load-theme 'manoj-dark t))
 
-;; theme
-(load-theme 'manoj-dark t)
-
-(leaf editorconfig
-  :ensure t
-  :require t
+(use-package cus-edit
+  :custom
+  (custom-file (locate-user-emacs-file "custom.el"))
   :config
-  (editorconfig-mode 1))
+  (load custom-file 'noerror 'nomessage))
 
-;; auto-convert
-(leaf autorevert
-  :doc "revert buffers when files on disk change"
-  :tag "builtin"
-  :custom ((auto-revert-interval . 1))
-:global-minor-mode global-auto-revert-mode)
+;;;; Files, auto-save and history
 
-;; delsel
-(leaf delsel
-  :doc "delete selection if you insert"
-  :tag "builtin"
-:global-minor-mode delete-selection-mode)
+(use-package files
+  :custom
+  ;; No backup files (foo~).  Auto-save files go to backup/ instead of next to the file.
+  (make-backup-files nil)
+  (auto-save-timeout 15)
+  (auto-save-interval 60)
+  (auto-save-file-name-transforms
+   `((".*" ,(locate-user-emacs-file "backup/") t)))
+  (auto-save-list-file-prefix (locate-user-emacs-file "backup/.saves-")))
 
-;; 括弧強調表示
-(leaf paren
-  :doc "highlight matching paren"
-  :tag "builtin"
-  :custom ((show-paren-delay . 0.1))
-  :global-minor-mode show-paren-mode)
+(use-package autorevert
+  :custom (auto-revert-interval 1)
+  :config (global-auto-revert-mode 1))
 
-;; kill-ring制御
-(leaf simple
-  :doc "basic editing commands for Emacs"
-  :tag "builtin" "internal"
-  :custom ((kill-ring-max . 100)
-           (kill-read-only-ok . t)
-           (kill-whole-line . t)
-           (eval-expression-print-length . nil)
-           (eval-expression-print-level . nil)))
+(use-package recentf
+  :custom (recentf-max-saved-items 200)
+  :config (recentf-mode 1))
 
-;; back-up
-(leaf files
-  :doc "file input and output commands for Emacs"
-  :tag "builtin"
-  :custom `((auto-save-timeout . 15)
-            (auto-save-interval . 60)
-            (auto-save-file-name-transforms . '((".*" ,(locate-user-emacs-file "backup/") t)))
-            (backup-directory-alist . '((".*" . ,(locate-user-emacs-file "backup"))
-                                        (,tramp-file-name-regexp . nil)))
-            (version-control . t)
-            (delete-old-versions . t)))
+(use-package savehist
+  :config (savehist-mode 1))
 
-(setq make-backup-files nil)
+(use-package saveplace
+  :config (save-place-mode 1))
 
-;; start-up
-(leaf startup
-  :doc "process Emacs shell arguments"
-  :tag "builtin" "internal"
-:custom `((auto-save-list-file-prefix . ,(locate-user-emacs-file "backup/.saves-"))))
+;;;; Editing
 
-;; ivy
-(leaf ivy
-  :doc "Incremental Vertical completYon"
-  :req "emacs-24.5"
-  :tag "matching" "emacs>=24.5"
-  :url "https://github.com/abo-abo/swiper"
-  :emacs>= 24.5
-  :ensure t
-  :blackout t
-  :leaf-defer nil
-  :custom ((ivy-initial-inputs-alist . nil)
-           (ivy-use-selectable-prompt . t))
-  :global-minor-mode t
-  :config
-  (leaf swiper
-    :doc "Isearch with an overview. Oh, man!"
-    :req "emacs-24.5" "ivy-0.13.0"
-    :tag "matching" "emacs>=24.5"
-    :url "https://github.com/abo-abo/swiper"
-    :emacs>= 24.5
-    :ensure t
-    :bind (("C-s" . swiper)))
+(use-package delsel
+  :config (delete-selection-mode 1))
 
-  (leaf counsel
-    :doc "Various completion functions using Ivy"
-    :req "emacs-24.5" "swiper-0.13.0"
-    :tag "tools" "matching" "convenience" "emacs>=24.5"
-    :url "https://github.com/abo-abo/swiper"
-    :emacs>= 24.5
-    :ensure t
-    :blackout t
-    :bind (("C-S-s" . counsel-imenu)
-           ("C-x C-r" . counsel-recentf))
-    :custom `((counsel-yank-pop-separator . "\n----------\n")
-              (counsel-find-file-ignore-regexp . ,(rx-to-string '(or "./" "../") 'no-group)))
-    :global-minor-mode t))
+(use-package paren
+  :custom (show-paren-delay 0.1))
 
-(leaf prescient
-  :doc "Better sorting and filtering"
-  :req "emacs-25.1"
-  :tag "extensions" "emacs>=25.1"
-  :url "https://github.com/raxod502/prescient.el"
-  :emacs>= 25.1
-  :ensure t
-  :custom ((prescient-aggressive-file-save . t))
-  :global-minor-mode prescient-persist-mode)
+(use-package editorconfig
+  :config (editorconfig-mode 1))
 
-(leaf ivy-prescient
-  :doc "prescient.el + Ivy"
-  :req "emacs-25.1" "prescient-4.0" "ivy-0.11.0"
-  :tag "extensions" "emacs>=25.1"
-  :url "https://github.com/raxod502/prescient.el"
-  :emacs>= 25.1
-  :ensure t
-  :after prescient ivy
-  :custom ((ivy-prescient-retain-classic-highlighting . t))
-:global-minor-mode t)
-
-;; flycheck
-(leaf flycheck
-  :doc "On-the-fly syntax checking"
-  :req "dash-2.12.1" "pkg-info-0.4" "let-alist-1.0.4" "seq-1.11" "emacs-24.3"
-  :tag "minor-mode" "tools" "languages" "convenience" "emacs>=24.3"
-  :url "http://www.flycheck.org"
-  :emacs>= 24.3
-  :ensure t
-  :bind (("M-n" . flycheck-next-error)
-         ("M-p" . flycheck-previous-error))
-:global-minor-mode global-flycheck-mode)
-
-;; company
-(leaf company
-  :ensure t
-  :leaf-defer nil
-  :blackout company-mode
-  :bind ((company-active-map
-          ("M-n" . nil)
-          ("M-p" . nil)
-          ("C-s" . company-filter-candidates)
-          ("C-n" . company-select-next)
-          ("C-p" . company-select-previous)
-          ("C-i" . company-complete-selection))
-         (company-search-map
-          ("C-n" . company-select-next)
-          ("C-p" . company-select-previous)))
-  :custom ((company-tooltip-limit         . 12)
-           (company-idle-delay            . 0) ;; 補完の遅延なし
-           (company-minimum-prefix-length . 1) ;; 1文字から補完開始
-           (company-transformers          . '(company-sort-by-occurrence))
-           (global-company-mode           . t)
-           (company-selection-wrap-around . t)))
-
-(leaf company-c-headers
-  :doc "Company mode backend for C/C++ header files"
-  :req "emacs-24.1" "company-0.8"
-  :tag "company" "development" "emacs>=24.1"
-  :added "2020-03-25"
-  :emacs>= 24.1
-  :ensure t
-  :after company
-  :defvar company-backends
-  :config
-  (add-to-list 'company-backends 'company-c-headers))
-
-;; cc-mode
-(leaf cc-mode
-  :doc "major mode for editing C and similar languages"
-  :tag "builtin"
-  :defvar (c-basic-offset)
-  :bind (c-mode-base-map
-         ("C-c c" . compile))
-  :mode-hook
-  (c-mode-hook . ((c-set-style "bsd")
-                  (setq c-basic-offset 4)))
-  (c++-mode-hook . ((c-set-style "bsd")
-                    (setq c-basic-offset 4))))
-
-;; コードの先頭, 末尾への移動, 行頭, 行末への移動.
-(leaf mwim
+(use-package mwim
   :ensure t
   :bind (("C-a" . mwim-beginning-of-code-or-line)
          ("C-e" . mwim-end-of-code-or-line)))
 
+(use-package which-key
+  :config (which-key-mode 1))
 
-;; end of init.el
-(provide 'init)
+;;;; Terminal
+
+;; The Homebrew build has no GUI.  Make the terminal frame behave.
+(unless (display-graphic-p)
+  ;; Mouse clicks and the wheel (needs the terminal to report mouse events).
+  (xterm-mouse-mode 1)
+  ;; Share the kill ring with the macOS clipboard.
+  (when (and (eq system-type 'darwin) (executable-find "pbcopy"))
+    (setq interprogram-cut-function
+          (lambda (text)
+            (let ((process-connection-type nil))
+              (let ((proc (start-process "pbcopy" nil "pbcopy")))
+                (process-send-string proc text)
+                (process-send-eof proc)))))
+    (setq interprogram-paste-function
+          (lambda ()
+            (let ((text (shell-command-to-string "pbpaste")))
+              (unless (string-empty-p text) text))))))
+
+;;;; Minibuffer completion
+
+(use-package vertico
+  :ensure t
+  :custom (vertico-cycle t)
+  :config (vertico-mode 1))
+
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
+(use-package marginalia
+  :ensure t
+  :config (marginalia-mode 1))
+
+(use-package consult
+  :ensure t
+  :bind (("C-s" . consult-line)
+         ("C-S-s" . consult-imenu)
+         ("C-x b" . consult-buffer)
+         ("C-x C-r" . consult-recent-file)
+         ("M-y" . consult-yank-pop)
+         ("M-g g" . consult-goto-line)
+         ("M-g f" . consult-flymake)
+         ("M-s r" . consult-ripgrep)))
+
+;;;; In-buffer completion
+
+;; Emacs 31 supports child frames on text terminals, so corfu works in -nw.
+(use-package corfu
+  :ensure t
+  :demand t                             ; :bind would otherwise defer :config
+  :custom
+  (corfu-auto t)
+  (corfu-auto-delay 0.05)
+  (corfu-auto-prefix 1)
+  (corfu-count 12)
+  (corfu-cycle t)
+  :bind (:map corfu-map
+              ("C-s" . corfu-insert-separator)
+              ("C-i" . corfu-complete))
+  :config (global-corfu-mode 1))
+
+;;;; Programming
+
+(use-package flymake
+  :hook (prog-mode . flymake-mode)
+  :bind (:map flymake-mode-map
+              ("M-n" . flymake-goto-next-error)
+              ("M-p" . flymake-goto-prev-error)))
+
+(defvar my/language-servers
+  '(((c-mode c++-mode c-ts-base-mode) clangd)
+    ((python-base-mode) ruff basedpyright-langserver pyright-langserver pylsp))
+  "Major modes and the language server executables eglot can use for them.")
+
+(defun my/eglot-ensure-if-server ()
+  "Start eglot when a language server for this major mode is installed."
+  (when (seq-some (lambda (entry)
+                    (and (derived-mode-p (car entry))
+                         (seq-some (lambda (exe) (executable-find (symbol-name exe)))
+                                   (cdr entry))))
+                  my/language-servers)
+    (eglot-ensure)))
+
+(use-package eglot
+  :hook ((c-mode c-ts-mode c++-mode c++-ts-mode python-mode python-ts-mode)
+         . my/eglot-ensure-if-server))
+
+;; Tree-sitter grammars.  Install with M-x my/treesit-install-grammars;
+;; until then the classic modes are used.
+(use-package treesit
+  :preface
+  (setq treesit-language-source-alist
+        '((c "https://github.com/tree-sitter/tree-sitter-c")
+          (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+          (python "https://github.com/tree-sitter/tree-sitter-python")))
+  (defun my/treesit-install-grammars ()
+    "Install the tree-sitter grammars listed in `treesit-language-source-alist'."
+    (interactive)
+    (dolist (lang (mapcar #'car treesit-language-source-alist))
+      (unless (treesit-language-available-p lang)
+        (treesit-install-language-grammar lang))))
+  :config
+  (dolist (pair '((c . (c-mode . c-ts-mode))
+                  (cpp . (c++-mode . c++-ts-mode))
+                  (python . (python-mode . python-ts-mode))))
+    (when (treesit-language-available-p (car pair))
+      (add-to-list 'major-mode-remap-alist (cdr pair)))))
+
+(use-package cc-mode
+  :custom
+  (c-default-style '((java-mode . "java") (awk-mode . "awk") (other . "bsd")))
+  (c-basic-offset 4)
+  :bind (:map c-mode-base-map ("C-c c" . compile)))
+
+(use-package c-ts-mode
+  :custom
+  (c-ts-mode-indent-style 'bsd)
+  (c-ts-mode-indent-offset 4)
+  :bind (:map c-ts-base-mode-map ("C-c c" . compile)))
+
+;;; init.el ends here
